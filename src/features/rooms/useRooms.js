@@ -11,7 +11,5 @@ export function useRooms() {
     queryFn: getRooms,
   });
 
-  console.log("rooms", rooms);
-
   return { isLoading, rooms, error };
 }

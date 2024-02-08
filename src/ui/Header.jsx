@@ -1,11 +1,13 @@
 import { useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { IoIosArrowDown, IoIosLogOut } from "react-icons/io";
 import { RiUserSettingsLine } from "react-icons/ri";
 
 import { useUser } from "../features/authentication/useUser";
 import useOnClickOutside from "../hooks/useOnClickOutside";
-import { Link } from "react-router-dom";
+
 import Navbar from "./NavbarLink";
+import Logout from "../features/authentication/Logout";
 
 function Header() {
   const { user } = useUser();
@@ -33,27 +35,24 @@ function Header() {
         {showDropdown && (
           <div
             ref={dropdownRef}
-            className="absolute right-4 top-16 z-20 mt-2 w-44 rounded-md bg-white py-2 text-sm shadow-xl"
+            className="absolute right-4 top-16 z-20 mt-2 w-44 rounded-md bg-white py-1 text-sm shadow-xl"
           >
             <Link
               to=""
-              className="flex items-center justify-start gap-4 px-4 py-2 text-gray-800 hover:bg-gray-100"
+              className="flex w-full items-center justify-start gap-4 px-4 py-2 text-gray-800 hover:bg-gray-100"
             >
               <RiUserSettingsLine />
               <span> Profile Settings</span>
             </Link>
-            <Link
-              to=""
-              className="flex items-center justify-start gap-4 px-4 py-2 text-gray-800 hover:bg-gray-100"
-            >
+            <Logout className="flex w-full items-center justify-start gap-4 px-4 py-2 text-gray-800 hover:bg-gray-100">
               <IoIosLogOut />
               <span>Logout</span>
-            </Link>
+            </Logout>
           </div>
         )}
-        <button className="ml-4 text-xl text-gray-600">
+        <Logout className="ml-4 text-xl text-gray-600">
           <IoIosLogOut />
-        </button>
+        </Logout>
       </div>
     </header>
   );

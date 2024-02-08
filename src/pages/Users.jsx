@@ -4,7 +4,9 @@ import Heading from "../ui/Heading";
 function Users() {
   return (
     <>
-      <Heading as="h4">Users</Heading>
+      <div className="flex">
+        <Heading as="h4">New User</Heading>
+      </div>
       <SignupForm />
     </>
   );

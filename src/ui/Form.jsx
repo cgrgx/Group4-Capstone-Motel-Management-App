@@ -1,20 +1,6 @@
-import React from "react";
-
-const Form = ({ type = "regular", children, ...props }) => {
-  // Define base classes for all forms
-  let baseClasses = "overflow-hidden text-base font-normal";
-
-  // Add conditional classes based on the type prop
-  const typeClasses =
-    type === "regular"
-      ? "p-6 bg-gray-50 border border-grey-100 rounded-md"
-      : "w-[80rem]";
-
-  // Combine all classes
-  const classes = `${baseClasses} ${typeClasses}`;
-
+const Form = ({ children }) => {
   return (
-    <form className={classes} {...props}>
+    <form className="border-grey-100 overflow-hidden rounded-md border bg-gray-50 px-12 py-6 text-base font-normal">
       {children}
     </form>
   );

@@ -24,7 +24,6 @@ function Navbar() {
       className={({ isActive }) =>
         `flex items-center justify-center gap-3 rounded-md px-4 py-2 font-medium hover:bg-gray-200 ${isActive ? activeLinkStyles : ""}`
       }
-      exact={path === "/dashboard"}
     >
       <Icon className="text-xl" />
       <span>{name}</span>
@@ -35,7 +34,7 @@ function Navbar() {
     <nav className="flex items-center justify-between bg-white px-4 py-2 text-lg">
       <div className="flex items-center gap-4">
         {/* Logo */}
-        <NavLink to="/" exact className="mr-6 flex items-center">
+        <NavLink to="/" className="mr-6 flex items-center">
           <img src={logo} alt="Logo" className="mr-10 h-10" />
         </NavLink>
 
