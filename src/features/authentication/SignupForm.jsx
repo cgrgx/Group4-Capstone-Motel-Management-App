@@ -81,12 +81,7 @@ function SignupForm() {
 
       <FormRow hasButton={true}>
         <ButtonGroup>
-          <Button
-            variation="gray"
-            type="button"
-            disabled={isLoading}
-            onClick={reset}
-          >
+          <Button variation="gray" type="reset" disabled={isLoading}>
             Cancel
           </Button>
           <Button type="submit" variation="orange">

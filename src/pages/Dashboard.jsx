@@ -2,8 +2,12 @@ import { useState } from "react";
 
 import { useLogout } from "../features/authentication/useLogout";
 import { useAdmin } from "../features/authentication/useAdmins";
+import { useUser } from "../features/authentication/useUser";
 
 function Dashboard() {
+  const { user } = useUser();
+  console.log(user);
+
   const [userRoles, setUserRoles] = useState([]);
   const [loading, setLoading] = useState(true);
   const { logout, isLoading } = useLogout();
