@@ -23,7 +23,7 @@ function SignupForm() {
   }
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
+    <Form onSubmit={handleSubmit(onSubmit)} type="signup">
       <FormRow label="Full name" error={errors?.fullName?.message}>
         <Input
           type="text"
@@ -83,7 +83,7 @@ function SignupForm() {
         <ButtonGroup>
           <Button
             variation="gray"
-            type="reset"
+            type="button"
             disabled={isLoading}
             onClick={reset}
           >

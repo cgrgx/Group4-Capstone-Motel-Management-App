@@ -1,5 +1,9 @@
 import { useState } from "react";
 import { useLogin } from "./useLogin";
+import Form from "../../ui/Form";
+import Input from "../../ui/Input";
+import Button from "../../ui/Button";
+import FormRowVertical from "../../ui/FormRowVertical";
 
 function LoginForm() {
   const [email, setEmail] = useState("");
@@ -21,45 +25,73 @@ function LoginForm() {
     );
   }
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="mx-auto flex max-w-lg flex-col px-16 py-8"
-    >
-      <div className="mb-4">
-        <label htmlFor="email" className=" mb-2 ">
-          Username:
-        </label>
-        <input
+    // <form
+    //   onSubmit={handleSubmit}
+    //   className="mx-auto flex max-w-lg flex-col px-16 py-8"
+    // >
+    //   <div className="mb-4">
+    //     <label htmlFor="email" className=" mb-2 ">
+    //       Username:
+    //     </label>
+    //     <input
+    //       type="email"
+    //       id="email"
+    //       name="email"
+    //       value={email}
+    //       onChange={(e) => setEmail(e.target.value)}
+    //       className="w-full rounded-md border border-gray-300 px-4 py-2"
+    //     />
+    //   </div>
+
+    //   <div className="mb-4">
+    //     <label htmlFor="password" className="mb-2">
+    //       Password:
+    //     </label>
+    //     <input
+    //       type="password"
+    //       id="password"
+    //       name="password"
+    //       value={password}
+    //       onChange={(e) => setPassword(e.target.value)}
+    //       className="w-full rounded-md border border-gray-300 px-4 py-2"
+    //     />
+    //   </div>
+
+    //   <button
+    //     type="submit"
+    //     className="mx-auto mt-4 rounded-md bg-orange-500 px-8 py-2 hover:bg-orange-700"
+    //   >
+    //     <span className=" text-xl font-bold text-black">LOGIN</span>
+    //   </button>
+    // </form>
+    <Form onSubmit={handleSubmit} type="login">
+      <FormRowVertical label="Email address">
+        <Input
           type="email"
           id="email"
-          name="email"
+          autoComplete="username"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full rounded-md border border-gray-300 px-4 py-2"
+          disabled={isLoading}
         />
-      </div>
+      </FormRowVertical>
 
-      <div className="mb-4">
-        <label htmlFor="password" className="mb-2">
-          Password:
-        </label>
-        <input
+      <FormRowVertical label="Password">
+        <Input
           type="password"
           id="password"
-          name="password"
+          autoComplete="current-password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full rounded-md border border-gray-300 px-4 py-2"
+          disabled={isLoading}
         />
-      </div>
-
-      <button
-        type="submit"
-        className="mx-auto mt-4 rounded-md bg-orange-500 px-8 py-2 hover:bg-orange-700"
-      >
-        <span className=" text-xl font-bold text-black">LOGIN</span>
-      </button>
-    </form>
+      </FormRowVertical>
+      <FormRowVertical>
+        <Button size="large" disabled={isLoading}>
+          {!isLoading ? "Login" : <span>loading...</span>}
+        </Button>
+      </FormRowVertical>
+    </Form>
   );
 }
 

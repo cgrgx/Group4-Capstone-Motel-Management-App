@@ -1,12 +1,6 @@
 import { useState } from "react";
-import { useEffect } from "react";
 
-import supabase from "../services/supabase";
-import { getAdmins } from "../services/apiAdmins";
 import { useLogout } from "../features/authentication/useLogout";
-import UsersList from "../features/authentication/UserList";
-import CreateUserComponent from "../features/authentication/CreateUser";
-import { useUser } from "../features/authentication/useUser";
 import { useAdmin } from "../features/authentication/useAdmins";
 
 function Dashboard() {
@@ -17,6 +11,10 @@ function Dashboard() {
   const { isLoading: adminLoading, isAdmin, error: adminError } = useAdmin();
 
   console.log("isAdmin", isAdmin);
+
+  if (adminLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>
