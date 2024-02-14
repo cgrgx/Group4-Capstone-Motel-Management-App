@@ -12,11 +12,12 @@ function Dashboard() {
   const { user } = useUser();
   console.log("user", user);
 
-  const {
-    isLoading: adminLoading,
-    isAdmin,
-    error: adminError,
-  } = useAdmin(user?.id);
+  // const {
+  //   isLoading: adminLoading,
+  //   isAdmin,
+  //   error: adminError,
+  // } = useAdmin(user?.id);
+  let isAdmin = user.app_metadata?.claims_admin || false;
 
   console.log("isAdmin", isAdmin);
 

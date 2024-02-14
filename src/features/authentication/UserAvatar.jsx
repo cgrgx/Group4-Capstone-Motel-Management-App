@@ -9,7 +9,6 @@ import useOnClickOutside from "../../hooks/useOnClickOutside";
 
 function UserAvatar() {
   const { user } = useUser();
-  // console.log("user", user);
   const dropdownRef = useRef();
   const [showDropdown, setShowDropdown] = useState(false);
   const { fullName, avatar } = user ? user.user_metadata : {};
@@ -22,7 +21,6 @@ function UserAvatar() {
         alt={`Avatar of ${fullName}`}
       />
       {fullName}
-      {/* chiran gurung */}
       <button onClick={() => setShowDropdown(!showDropdown)}>
         <IoIosArrowDown />
       </button>
