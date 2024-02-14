@@ -5,7 +5,7 @@ function FormRow({ label, error, children, hasButton }) {
     >
       {label && (
         <label
-          htmlFor={children.props?.id}
+          // htmlFor={children.props?.id}
           className="h-18 flex items-center text-lg font-semibold"
         >
           {label}

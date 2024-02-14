@@ -2,6 +2,7 @@ import { NavLink } from "react-router-dom";
 import {
   IoCalendarOutline,
   IoHomeOutline,
+  IoPeopleOutline,
   IoPersonOutline,
   IoSettingsOutline,
 } from "react-icons/io5";
@@ -11,6 +12,7 @@ import logo from "../data/images/SGM.png";
 function Navbar() {
   const navItems = [
     { path: "/dashboard", name: "Home", icon: IoHomeOutline },
+    { path: "/guests", name: "Guests", icon: IoPeopleOutline },
     { path: "/bookings", name: "Bookings", icon: IoCalendarOutline },
     { path: "/rooms", name: "Rooms", icon: LuSofa },
     { path: "/users", name: "Users", icon: IoPersonOutline },

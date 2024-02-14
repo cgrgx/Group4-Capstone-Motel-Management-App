@@ -5,20 +5,24 @@ import { useAdmin } from "../features/authentication/useAdmins";
 import { useUser } from "../features/authentication/useUser";
 
 function Dashboard() {
-  const { user } = useUser();
-  console.log(user);
-
   const [userRoles, setUserRoles] = useState([]);
   const [loading, setLoading] = useState(true);
   const { logout, isLoading } = useLogout();
 
-  const { isLoading: adminLoading, isAdmin, error: adminError } = useAdmin();
+  const { user } = useUser();
+  console.log("user", user);
+
+  const {
+    isLoading: adminLoading,
+    isAdmin,
+    error: adminError,
+  } = useAdmin(user?.id);
 
   console.log("isAdmin", isAdmin);
 
-  if (adminLoading) {
-    return <div>Loading...</div>;
-  }
+  // if (adminLoading) {
+  //   return <div>Loading...</div>;
+  // }
 
   return (
     <div>

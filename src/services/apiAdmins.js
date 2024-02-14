@@ -11,6 +11,7 @@ export const getAdmins = async (userId) => {
     throw new Error(error.message);
   }
   // admin role_id = 1 in the database
+  console.log("admins", data);
   const isAdmin = data.some((admin) => admin.role_id === 1);
 
   return isAdmin;
