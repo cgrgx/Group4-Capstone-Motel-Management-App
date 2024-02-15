@@ -14,14 +14,14 @@ function UpdateUserDataForm() {
   // We don't need the loading state, and can immediately use the user data, because we know that it has already been loaded at this point
   const { user } = useUser();
   console.log("user", user);
-  // const {
-  //   email,
-  //   user_metadata: { fullName: currentFullName },
-  // } = user;
+  const {
+    email,
+    user_metadata: { fullName: currentFullName },
+  } = user;
 
   const { updateUser, isUpdating } = useUpdateUser();
 
-  let currentFullName = user?.user_metadata?.fullName;
+  // let currentFullName = user?.user_metadata?.fullName;
   const [fullName, setFullName] = useState(currentFullName);
   const [avatar, setAvatar] = useState(null);
 
@@ -55,7 +55,7 @@ function UpdateUserDataForm() {
   return (
     <Form onSubmit={handleSubmit}>
       <FormRow label="Email address">
-        <Input value={user?.email} disabled />
+        <Input value={email} disabled />
       </FormRow>
       <FormRow label="Full name">
         <Input

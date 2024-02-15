@@ -76,3 +76,15 @@ export async function updateCurrentUser({ password, fullName, avatar }) {
 
   return updatedUser;
 }
+
+export async function setAdmin(userId) {
+  const { data, error } = await supabase.rpc("set_claim", {
+    uid: userId,
+    claim: "claims_admin",
+    value: true,
+  });
+
+  if (error) throw new Error(error.message);
+
+  return data;
+}

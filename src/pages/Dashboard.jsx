@@ -1,7 +1,6 @@
 import { useState } from "react";
 
 import { useLogout } from "../features/authentication/useLogout";
-import { useAdmin } from "../features/authentication/useAdmins";
 import { useUser } from "../features/authentication/useUser";
 
 function Dashboard() {
@@ -9,7 +8,7 @@ function Dashboard() {
   const [loading, setLoading] = useState(true);
   const { logout, isLoading } = useLogout();
 
-  const { user } = useUser();
+  const { user, isAdmin } = useUser();
   console.log("user", user);
 
   // const {
@@ -17,7 +16,7 @@ function Dashboard() {
   //   isAdmin,
   //   error: adminError,
   // } = useAdmin(user?.id);
-  let isAdmin = user.app_metadata?.claims_admin || false;
+  // let isAdmin = user.app_metadata?.claims_admin || false;
 
   console.log("isAdmin", isAdmin);
 
