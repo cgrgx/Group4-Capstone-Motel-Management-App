@@ -5,7 +5,7 @@ const Input = React.forwardRef((props, ref) => {
   return (
     <input
       ref={ref}
-      className="rounded-sm border border-gray-300 bg-gray-50 px-3 py-2 shadow-sm"
+      className="w-56 rounded-sm border border-gray-300 bg-gray-50 px-3 py-2 shadow-sm"
       {...props} // Spread the rest of the props to the input element
     />
   );

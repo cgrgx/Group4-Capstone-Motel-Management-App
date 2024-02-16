@@ -1,15 +1,20 @@
-import { useEffect } from "react";
+import AddRoom from "../features/rooms/AddRoom";
 import RoomTable from "../features/rooms/RoomTable";
-import { getRooms } from "../services/apiRooms";
+import Row from "../ui/Row";
+import Heading from "../ui/Heading";
 
 function Rooms() {
-  useEffect(() => {
-    getRooms().then((data) => console.log(data));
-  }, []);
   return (
-    <div>
-      <RoomTable />
-    </div>
+    <>
+      <Row type="horizontal">
+        <Heading as="h1">All Rooms</Heading>
+        <AddRoom />
+        {/* <CabinTableOperations /> */}
+      </Row>
+      <Row>
+        <RoomTable />
+      </Row>
+    </>
   );
 }
 

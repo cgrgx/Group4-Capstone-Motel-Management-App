@@ -10,6 +10,8 @@ import Rooms from "./pages/Rooms";
 import Users from "./pages/Users";
 import Settings from "./pages/Settings";
 import Account from "./pages/Account";
+import Bookings from "./pages/Bookings";
+import Guests from "./pages/Guests";
 
 // react-query client
 const queryClient = new QueryClient({
@@ -40,8 +42,10 @@ function App() {
               <Route path="rooms" element={<Rooms />} />
               <Route path="users" element={<Users />} />
               <Route path="settings" element={<Settings />} />
+              <Route path="bookings" element={<Bookings />} />
+              <Route path="guests" element={<Guests />} />
               <Route path="account" element={<Account />} />
-              {/* <Route path="bookings" element={<Bookings />} />
+              {/* 
               <Route path="bookings/:bookingId" element={<Booking />} />
               <Route path="checkin/:bookingId" element={<Checkin />} />
                */}
