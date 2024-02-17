@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { IoIosArrowDown, IoIosLogOut } from "react-icons/io";
+import { IoIosArrowDown, IoIosArrowUp, IoIosLogOut } from "react-icons/io";
 import { RiUserSettingsLine } from "react-icons/ri";
 
 import { useUser } from "./useUser";
@@ -12,7 +12,16 @@ function UserAvatar() {
   const dropdownRef = useRef();
   const [showDropdown, setShowDropdown] = useState(false);
   const { fullName, avatar } = user ? user.user_metadata : {};
+
+  // handle clicks outside of the dropdown
   useOnClickOutside(dropdownRef, () => setShowDropdown(false));
+
+  // toggle dropdown handler to stop event propagation
+  const toggleDropdown = (event) => {
+    event.stopPropagation(); // Prevent click from reaching the global listener
+    setShowDropdown(!showDropdown);
+  };
+
   return (
     <div className="flex items-center gap-2 text-lg font-medium text-gray-600">
       <img
@@ -21,8 +30,12 @@ function UserAvatar() {
         alt={`Avatar of ${fullName}`}
       />
       {fullName}
-      <button onClick={() => setShowDropdown(!showDropdown)}>
-        <IoIosArrowDown />
+      <button
+        onClick={toggleDropdown}
+        className=" text-gray-600  hover:text-gray-800 "
+      >
+        {showDropdown ? <IoIosArrowUp /> : <IoIosArrowDown />}
+        {/* <IoIosArrowDown /> */}
       </button>
       {showDropdown && (
         <div
@@ -42,9 +55,6 @@ function UserAvatar() {
           </Logout>
         </div>
       )}
-      <Logout className="ml-4 text-xl text-gray-600">
-        <IoIosLogOut />
-      </Logout>
     </div>
   );
 }

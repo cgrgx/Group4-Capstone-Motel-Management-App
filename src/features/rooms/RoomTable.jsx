@@ -97,6 +97,12 @@ const RoomTable = () => {
     setDeleteModalOpen(true);
   };
 
+  // Handle Close Modal
+  const handleCloseModal = () => {
+    setUpdateModalOpen(false);
+    setDeleteModalOpen(false);
+  };
+
   return (
     <div className="w-full">
       <Table data={rooms} columns={columns} title="Room List" />
@@ -107,7 +113,10 @@ const RoomTable = () => {
           setOpen={setUpdateModalOpen}
           title="Update Room"
         >
-          <CreateRoomForm roomToUpdate={selectedRoom} />
+          <CreateRoomForm
+            roomToUpdate={selectedRoom}
+            onCloseModal={handleCloseModal}
+          />
         </Modal>
       )}
       {/* Delete Modal */}
@@ -121,7 +130,11 @@ const RoomTable = () => {
           <ConfirmDelete
             resourceName="room"
             disabled={isDeleting}
-            onConfirm={() => deleteRoom(selectedRoom.id)}
+            onConfirm={() => {
+              deleteRoom(selectedRoom.id);
+              handleCloseModal?.();
+            }}
+            onCloseModal={handleCloseModal}
           />
         </Modal>
       )}

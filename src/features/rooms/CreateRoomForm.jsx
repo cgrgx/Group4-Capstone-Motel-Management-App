@@ -11,7 +11,7 @@ import ButtonGroup from "../../ui/ButtonGroup";
 import { useCreateRoom } from "./useCreateRoom";
 import { useUpdateRoom } from "./useUpdateRoom";
 
-function CreateRoomForm({ roomToUpdate = {} }) {
+function CreateRoomForm({ roomToUpdate = {}, onCloseModal }) {
   const { isCreating, createRoom } = useCreateRoom();
   const { isUpdating, updateRoom } = useUpdateRoom();
   const isWorking = isCreating || isUpdating;
@@ -33,6 +33,7 @@ function CreateRoomForm({ roomToUpdate = {} }) {
         {
           onSuccess: (data) => {
             reset();
+            onCloseModal?.();
           },
         },
       );
@@ -42,6 +43,7 @@ function CreateRoomForm({ roomToUpdate = {} }) {
         {
           onSuccess: (data) => {
             reset();
+            onCloseModal?.();
           },
         },
       );
@@ -73,7 +75,7 @@ function CreateRoomForm({ roomToUpdate = {} }) {
         />
       </FormRow>
 
-      <FormRow label="Bed" error={errors?.bedType?.message}>
+      <FormRow label="Bed" error={errors?.bed_type?.message}>
         <Input
           type="text"
           id="bed_type"
@@ -84,7 +86,7 @@ function CreateRoomForm({ roomToUpdate = {} }) {
         />
       </FormRow>
 
-      <FormRow label="Maximum capacity" error={errors?.maxCapacity?.message}>
+      <FormRow label="Maximum capacity" error={errors?.max_capacity?.message}>
         <Input
           type="number"
           id="max_capacity"
@@ -96,7 +98,7 @@ function CreateRoomForm({ roomToUpdate = {} }) {
         />
       </FormRow>
 
-      <FormRow label="Regular price" error={errors?.regularPrice?.message}>
+      <FormRow label="Regular price" error={errors?.regular_price?.message}>
         <Input
           type="number"
           id="regular_price"
@@ -107,7 +109,7 @@ function CreateRoomForm({ roomToUpdate = {} }) {
         />
       </FormRow>
 
-      <FormRow label="Discount" error={errors?.discount?.message}>
+      <FormRow label="Discount" error={errors?.discount_price?.message}>
         <Input
           type="number"
           id="discount_price"

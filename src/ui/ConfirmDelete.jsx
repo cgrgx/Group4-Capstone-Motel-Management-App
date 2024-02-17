@@ -1,7 +1,6 @@
 import Button from "./Button";
-import Heading from "./Heading";
 
-function ConfirmDelete({ resourceName, onConfirm, disabled }) {
+function ConfirmDelete({ resourceName, onConfirm, disabled, onCloseModal }) {
   return (
     <div className="flex w-full flex-col gap-5">
       <p className="text-lg">
@@ -10,7 +9,11 @@ function ConfirmDelete({ resourceName, onConfirm, disabled }) {
       </p>
 
       <div className="flex justify-end gap-3">
-        <Button variation="secondary" onClick={() => onConfirm(false)}>
+        <Button
+          variation="secondary"
+          onClick={onCloseModal}
+          disabled={disabled}
+        >
           Cancel
         </Button>
         <Button variation="red" onClick={onConfirm} disabled={disabled}>

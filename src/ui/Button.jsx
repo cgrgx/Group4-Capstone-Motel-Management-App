@@ -9,10 +9,10 @@ const sizeClasses = {
 };
 
 const variationClasses = {
-  orange: " bg-orange-600  hover:bg-orange-800",
+  orange: " bg-orange-500 hover:bg-orange-700",
   gray: "bg-gray-50  hover:bg-gray-300",
-  red: " bg-red-700 hover:bg-red-800",
-  green: " bg-green-700  hover:bg-red-800",
+  red: " bg-red-600 text-gray-100 hover:bg-red-700",
+  green: " bg-green-700  hover:bg-green-700",
 };
 
 // Button component using Tailwind classes based on props

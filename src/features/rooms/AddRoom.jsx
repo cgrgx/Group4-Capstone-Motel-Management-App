@@ -12,7 +12,7 @@ function AddRoom() {
 
       {isModalOpen && (
         <Modal open={isModalOpen} setOpen={setModalOpen} title="Create Room">
-          <CreateRoomForm />
+          <CreateRoomForm onCloseModal={() => setModalOpen(false)} />
         </Modal>
       )}
     </div>
