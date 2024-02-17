@@ -1,19 +1,17 @@
 import { useEffect, useState } from "react";
 
 import Button from "../../ui/Button";
-// import FileInput from "../../ui/FileInput";
+import FileInput from "../../ui/FileInput";
 import Form from "../../ui/Form";
 import FormRow from "../../ui/FormRow";
 import Input from "../../ui/Input";
+import ButtonGroup from "../../ui/ButtonGroup";
 
 import { useUser } from "./useUser";
 import { useUpdateUser } from "./useUpdateUser";
-import ButtonGroup from "../../ui/ButtonGroup";
 
 function UpdateUserDataForm() {
-  // We don't need the loading state, and can immediately use the user data, because we know that it has already been loaded at this point
   const { user } = useUser();
-  console.log("user", user);
   const {
     email,
     user_metadata: { fullName: currentFullName },
@@ -66,14 +64,14 @@ function UpdateUserDataForm() {
           id="fullName"
         />
       </FormRow>
-      {/* <FormRow label="Avatar image">
+      <FormRow label="Avatar image">
         <FileInput
           id="avatar"
           accept="image/*"
           disabled={isUpdating}
           onChange={(e) => setAvatar(e.target.files[0])}
         />
-      </FormRow> */}
+      </FormRow>
       <FormRow hasButton={true}>
         <ButtonGroup>
           <Button
