@@ -10,6 +10,8 @@ import ConfirmDelete from "../../ui/ConfirmDelete";
 import CreateRoomForm from "./CreateRoomForm";
 import Spinner from "../../ui/Spinner";
 import { useUser } from "../authentication/useUser";
+import { formatCurrency } from "../../utils/helpers";
+import ToolTip from "../../ui/ToolTip";
 
 const columnHelper = createColumnHelper();
 
@@ -30,7 +32,7 @@ const RoomTable = () => {
       cell: (info) => (
         <p className="truncate font-semibold">{info.getValue()}</p>
       ),
-      header: () => <span>Room Name</span>,
+      header: () => "Room Name",
     }),
     columnHelper.accessor("image", {
       cell: (info) => (
@@ -40,27 +42,23 @@ const RoomTable = () => {
           className="h-20 w-20 object-cover"
         />
       ),
-      header: () => <span>Image</span>,
+      header: () => "Image",
     }),
     columnHelper.accessor("bed_type", {
-      cell: (info) => info.renderValue(),
+      cell: (info) => info.getValue(),
       header: () => "Bed",
     }),
     columnHelper.accessor("max_capacity", {
+      cell: (info) => <span>{info.getValue()} people</span>,
       header: "Max Capacity",
     }),
     columnHelper.accessor("regular_price", {
-      header: () => <span>Price</span>,
+      cell: (info) => formatCurrency(info.getValue()),
+      header: () => "Regular Price",
     }),
     columnHelper.accessor("discount_price", {
-      cell: (info) => (
-        <span
-          className={`rounded-md px-3 py-1 text-sm ${info.getValue() >= 50 ? "bg-green-200 text-green-900" : "bg-red-200 text-red-900"}`}
-        >
-          {info.getValue()}{" "}
-        </span>
-      ),
-      header: () => "Discount",
+      cell: (info) => formatCurrency(info.getValue()),
+      header: () => "Discount Price",
     }),
     columnHelper.accessor("actions", {
       id: "actions", // It's good practice to explicitly set an ID for non-accessor columns
@@ -68,26 +66,28 @@ const RoomTable = () => {
         <>
           {isAdmin ? (
             <div className="flex items-center justify-center">
-              <button
+              <ToolTip
+                text="Edit booking"
                 onClick={() => handleOpenUpdateModal(info.row.original)}
-                className="text-xl text-indigo-600 hover:text-indigo-900"
+                className={"text-indigo-600 hover:text-indigo-900"}
               >
                 <MdOutlineModeEdit />
-              </button>
+              </ToolTip>
               <span className="mx-2 inline-block h-5 border-r-2 border-gray-300 align-middle" />
-              <button
+              <ToolTip
+                text="Delete booking"
                 onClick={() => handleOpenDeleteModal(info.row.original)}
-                className="text-xl text-red-600 hover:text-red-900"
+                className={"text-red-600 hover:text-red-900"}
               >
                 <MdOutlineDelete />
-              </button>
+              </ToolTip>
             </div>
           ) : (
             <p>Your are not an admin</p>
           )}
         </>
       ),
-      header: () => <span>Actions</span>,
+      header: () => "Actions",
     }),
   ];
 
