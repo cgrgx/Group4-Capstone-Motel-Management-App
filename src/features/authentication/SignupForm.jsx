@@ -8,7 +8,7 @@ import { useSignup } from "./useSignup";
 
 // Email regex: /\S+@\S+\.\S+/
 
-function SignupForm() {
+function SignupForm({ onCloseModal }) {
   const { signup, isLoading } = useSignup();
   const { register, formState, getValues, handleSubmit, reset } = useForm();
   const { errors } = formState;
@@ -18,6 +18,7 @@ function SignupForm() {
       { fullName, email, password },
       {
         onSettled: () => reset(),
+        onSuccess: () => onCloseModal(),
       },
     );
   }

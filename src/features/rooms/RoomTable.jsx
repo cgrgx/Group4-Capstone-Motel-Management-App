@@ -8,10 +8,13 @@ import { Table } from "../../ui/Table";
 import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import CreateRoomForm from "./CreateRoomForm";
+import Spinner from "../../ui/Spinner";
+import { useUser } from "../authentication/useUser";
 
 const columnHelper = createColumnHelper();
 
 const RoomTable = () => {
+  const { isAdmin } = useUser();
   const { isLoading, rooms } = useRooms();
   const { isDeleting, deleteRoom } = useDeleteRoom();
 
@@ -19,9 +22,8 @@ const RoomTable = () => {
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedRoom, setSelectedRoom] = useState(null);
 
-  //TODO: add spinner
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Spinner />;
   }
   const columns = [
     columnHelper.accessor("name", {
@@ -64,21 +66,25 @@ const RoomTable = () => {
       id: "actions", // It's good practice to explicitly set an ID for non-accessor columns
       cell: (info) => (
         <>
-          <div className="flex items-center justify-center">
-            <button
-              onClick={() => handleOpenUpdateModal(info.row.original)}
-              className="text-xl text-indigo-600 hover:text-indigo-900"
-            >
-              <MdOutlineModeEdit />
-            </button>
-            <span className="mx-2 inline-block h-5 border-r-2 border-gray-300 align-middle" />
-            <button
-              onClick={() => handleOpenDeleteModal(info.row.original)}
-              className="text-xl text-red-600 hover:text-red-900"
-            >
-              <MdOutlineDelete />
-            </button>
-          </div>
+          {isAdmin ? (
+            <div className="flex items-center justify-center">
+              <button
+                onClick={() => handleOpenUpdateModal(info.row.original)}
+                className="text-xl text-indigo-600 hover:text-indigo-900"
+              >
+                <MdOutlineModeEdit />
+              </button>
+              <span className="mx-2 inline-block h-5 border-r-2 border-gray-300 align-middle" />
+              <button
+                onClick={() => handleOpenDeleteModal(info.row.original)}
+                className="text-xl text-red-600 hover:text-red-900"
+              >
+                <MdOutlineDelete />
+              </button>
+            </div>
+          ) : (
+            <p>Your are not an admin</p>
+          )}
         </>
       ),
       header: () => <span>Actions</span>,
