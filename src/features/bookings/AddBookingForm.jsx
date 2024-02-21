@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import Input from "../../ui/Input";
@@ -11,12 +12,13 @@ import ButtonGroup from "../../ui/ButtonGroup";
 import { useAddNewBooking } from "./useAddNewBooking";
 import { useUpdateBooking } from "./useUpdateBooking";
 import { useRooms } from "../rooms/useRooms";
-import { useState } from "react";
+import { useGuests } from "../guests/useGuests";
 
 function AddBookingForm({ bookingToUpdate = {}, onCloseModal }) {
   const { isAdding, addNewBooking } = useAddNewBooking();
   const { isUpdating, updateBooking } = useUpdateBooking();
   const { rooms, isLoading: isRoomsLoading } = useRooms();
+  const { guests, isLoading: isGuestsLoading } = useGuests();
   const isWorking = isAdding || isUpdating;
 
   const { id: updateId, ...updateValues } = bookingToUpdate;
@@ -61,6 +63,16 @@ function AddBookingForm({ bookingToUpdate = {}, onCloseModal }) {
           {rooms?.map((room) => (
             <option key={room.id} value={room.id}>
               {room.name}
+            </option>
+          ))}
+        </select>
+      </FormRow>
+
+      <FormRow label="Guest" error={errors?.guest_id?.message}>
+        <select {...register("guest_id", { required: "Guest is required" })}>
+          {guests?.map((guest) => (
+            <option key={guest.id} value={guest.id}>
+              {guest.full_name}
             </option>
           ))}
         </select>
