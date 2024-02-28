@@ -1,33 +1,35 @@
 import { useState } from "react";
 import { createColumnHelper } from "@tanstack/react-table";
+import { useNavigate } from "react-router-dom";
 import { MdOutlineDelete, MdOutlineModeEdit } from "react-icons/md";
 import { CgDetailsMore } from "react-icons/cg";
 import { format, isToday } from "date-fns";
 
 import { useBookings } from "./useBookings";
-// import { useDeleteRoom } from "./useDeleteRoom";
 import { Table } from "../../ui/Table";
 import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
-// import CreateRoomForm from "./CreateRoomForm";
 import Spinner from "../../ui/Spinner";
 import { formatCurrency, formatDistanceFromNow } from "../../utils/helpers";
 import ToolTip from "../../ui/ToolTip";
 import AddBookingForm from "./AddBookingForm";
+import Empty from "../../ui/Empty";
 
 const columnHelper = createColumnHelper();
 
 const BookingTable = () => {
+  const navigate = useNavigate();
   const { isLoading, bookings } = useBookings();
-  console.log("bookings", bookings);
-  //   const { isDeleting, deleteRoom } = useDeleteRoom();
-
   const [isUpdateModalOpen, setUpdateModalOpen] = useState(false);
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedRoom, setSelectedRoom] = useState(null);
 
   if (isLoading) {
     return <Spinner />;
+  }
+
+  if (!bookings.length) {
+    return <Empty resourceName="bookings" />;
   }
   const columns = [
     columnHelper.accessor("rooms", {
@@ -96,7 +98,7 @@ const BookingTable = () => {
           <div className="flex items-center justify-center">
             <ToolTip
               text="See booking Details"
-              onClick={() => handleOpenDeleteModal(info.row.original)}
+              onClick={() => handleBookingDetail(info.row.original)}
               className={"text-green-600 hover:text-green-900"}
             >
               <CgDetailsMore />
@@ -123,6 +125,11 @@ const BookingTable = () => {
       header: () => "Actions",
     }),
   ];
+
+  // Handle Booking Detail
+  const handleBookingDetail = (booking) => {
+    navigate(`/bookings/${booking.id}`);
+  };
 
   // Open Update Modal
   const handleOpenUpdateModal = (booking) => {
