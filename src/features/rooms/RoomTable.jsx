@@ -39,7 +39,7 @@ const RoomTable = () => {
         <img
           src={info.getValue()}
           alt="room image"
-          className="h-20 w-20 object-cover"
+          className="h-20 w-20 rounded-lg object-cover"
         />
       ),
       header: () => "Image",

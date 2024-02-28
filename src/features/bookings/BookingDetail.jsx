@@ -129,7 +129,7 @@ function BookingDetail() {
         </Modal> */}
         <Button
           onClick={() => setDeleteModalOpen(true)}
-          disabled={isCheckingOut}
+          disabled={isDeletingBooking}
         >
           Delete booking
         </Button>
@@ -145,7 +145,11 @@ function BookingDetail() {
               resourceName="room"
               disabled={isDeletingBooking}
               onConfirm={() => {
-                deleteBooking(booking.id);
+                deleteBooking(booking.id, {
+                  onSettled: () => {
+                    navigate(-1);
+                  },
+                });
                 handleCloseModal?.();
               }}
               onCloseModal={handleCloseModal}

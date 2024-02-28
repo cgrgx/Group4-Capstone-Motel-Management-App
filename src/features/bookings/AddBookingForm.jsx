@@ -1,11 +1,8 @@
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import Input from "../../ui/Input";
 import Form from "../../ui/Form";
 import Button from "../../ui/Button";
-import Textarea from "../../ui/Textarea";
-import FileInput from "../../ui/FileInput";
 import FormRow from "../../ui/FormRow";
 import ButtonGroup from "../../ui/ButtonGroup";
 
@@ -13,12 +10,15 @@ import { useAddNewBooking } from "./useAddNewBooking";
 import { useUpdateBooking } from "./useUpdateBooking";
 import { useRooms } from "../rooms/useRooms";
 import { useGuests } from "../guests/useGuests";
+import ListBox from "../../ui/Listbox";
+import Combobox from "../../ui/Combobox";
 
 function AddBookingForm({ bookingToUpdate = {}, onCloseModal }) {
   const { isAdding, addNewBooking } = useAddNewBooking();
   const { isUpdating, updateBooking } = useUpdateBooking();
   const { rooms, isLoading: isRoomsLoading } = useRooms();
   const { guests, isLoading: isGuestsLoading } = useGuests();
+
   const isWorking = isAdding || isUpdating;
 
   const { id: updateId, ...updateValues } = bookingToUpdate;
@@ -27,8 +27,6 @@ function AddBookingForm({ bookingToUpdate = {}, onCloseModal }) {
   const {
     register,
     handleSubmit,
-    reset,
-    getValues,
     formState: { errors },
   } = useForm({
     defaultValues: isUpdateSession ? updateValues : {},
@@ -58,24 +56,20 @@ function AddBookingForm({ bookingToUpdate = {}, onCloseModal }) {
 
   return (
     <Form onSubmit={handleSubmit(onSubmit, onError)}>
-      <FormRow label="Room" error={errors?.room_id?.message}>
-        <select {...register("room_id", { required: "Room is required" })}>
-          {rooms?.map((room) => (
-            <option key={room.id} value={room.id}>
-              {room.name}
-            </option>
-          ))}
-        </select>
-      </FormRow>
-
       <FormRow label="Guest" error={errors?.guest_id?.message}>
-        <select {...register("guest_id", { required: "Guest is required" })}>
+        {/* <select {...register("guest_id", { required: "Guest is required" })}>
           {guests?.map((guest) => (
             <option key={guest.id} value={guest.id}>
               {guest.full_name}
             </option>
           ))}
-        </select>
+        </select> */}
+        {!isGuestsLoading && (
+          <Combobox
+            items={guests}
+            {...register("guest_id", { required: "Guest is required" })}
+          />
+        )}
       </FormRow>
 
       <FormRow label="Start date" error={errors?.start_date?.message}>
@@ -96,6 +90,22 @@ function AddBookingForm({ bookingToUpdate = {}, onCloseModal }) {
             required: "This field is required",
           })}
         />
+      </FormRow>
+
+      <FormRow label="Room" error={errors?.room_id?.message}>
+        {/* <select {...register("room_id", { required: "Room is required" })}>
+          {rooms?.map((room) => (
+            <option key={room.id} value={room.id}>
+              {room.name}
+            </option>
+          ))}
+        </select> */}
+        {!isRoomsLoading && (
+          <ListBox
+            items={rooms}
+            {...register("room_id", { required: "Room is required" })}
+          />
+        )}
       </FormRow>
 
       <FormRow label="Number of nights" error={errors?.num_nights?.message}>
