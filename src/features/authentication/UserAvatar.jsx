@@ -5,10 +5,11 @@ import { RiUserSettingsLine } from "react-icons/ri";
 
 import { useUser } from "./useUser";
 import Logout from "./Logout";
+import Spinner from "../../ui/Spinner";
 import useOnClickOutside from "../../hooks/useOnClickOutside";
 
 function UserAvatar() {
-  const { user } = useUser();
+  const { user, isLoading } = useUser();
   const dropdownRef = useRef();
   const [showDropdown, setShowDropdown] = useState(false);
   const { fullName, avatar } = user ? user.user_metadata : {};
@@ -21,6 +22,10 @@ function UserAvatar() {
     event.stopPropagation(); // Prevent click from reaching the global listener
     setShowDropdown(!showDropdown);
   };
+
+  if (isLoading) {
+    return <Spinner />;
+  }
 
   return (
     <div className="flex items-center gap-2 text-lg font-medium text-gray-600">
