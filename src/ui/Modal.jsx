@@ -62,7 +62,7 @@ export default function Modal({ children, open, setOpen, title, type }) {
                         />
                       </div>
                     )}
-                    <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                    <div className="mt-3 text-center sm:mt-0 sm:text-left">
                       <Dialog.Title
                         as="h3"
                         className="mb-6 p-2 text-2xl font-semibold leading-6 text-gray-900"

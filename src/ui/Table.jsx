@@ -179,7 +179,7 @@ export const Table = ({
                           key={header.id}
                           colSpan={header.colSpan}
                           scope="col"
-                          className="px-6 py-4 text-left text-lg font-medium text-gray-500"
+                          className="px-6 py-4 text-center text-lg font-medium text-gray-500"
                         >
                           {header.isPlaceholder ? null : (
                             <button
@@ -283,13 +283,13 @@ export const Table = ({
                 {/* if isLoading, use skeleton rows  */}
                 {isLoading &&
                   [...Array(5)].map((_, i) => (
-                    <tr key={i} className="hover:bg-gray-100">
+                    <tr key={i} className="hover:bg-gray-100 ">
                       {table.getHeaderGroups()[0].headers.map((header) => {
                         return (
                           <td
                             key={header.id}
                             colSpan={header.colSpan}
-                            className="whitespace-nowrap px-6 py-4 "
+                            className="whitespace-nowrap px-6 py-4"
                           >
                             <div className="flex w-full items-center">
                               <div className="text-md w-full text-gray-900">
@@ -309,9 +309,9 @@ export const Table = ({
                           return (
                             <td
                               key={cell.id}
-                              className="whitespace-nowrap px-6 py-4"
+                              className=" whitespace-nowrap px-6 py-4"
                             >
-                              <div className="flex items-center">
+                              <div className="flex items-center justify-center">
                                 <div className="text-md text-gray-700">
                                   {flexRender(
                                     cell.column.columnDef.cell,

@@ -25,6 +25,7 @@ function AddBookingForm({ bookingToUpdate = {}, onCloseModal }) {
   const { rooms, isLoading: isRoomsLoading } = useRooms();
   const { guests, isLoading: isGuestsLoading } = useGuests();
   const { settings, isLoading: isSettingsLoading } = useSettings();
+  console.log("settings", settings);
 
   const isWorking =
     isAdding ||
@@ -41,6 +42,7 @@ function AddBookingForm({ bookingToUpdate = {}, onCloseModal }) {
     handleSubmit,
     control,
     reset,
+    setError,
     setValue,
     formState: { errors },
   } = useForm({
@@ -59,24 +61,54 @@ function AddBookingForm({ bookingToUpdate = {}, onCloseModal }) {
     }
   }, [isGuestsLoading, isRoomsLoading, updateValues, setValue]);
 
+  // Add validation rules for num_guests
+  useEffect(() => {
+    if (!isSettingsLoading && settings) {
+      // Update the validation rules for num_guests
+      register("num_guests", {
+        required: "This field is required",
+        max: {
+          value: settings.max_guests,
+          message: `Maximum guests is ${settings.max_guests}`,
+        },
+        valueAsNumber: true,
+      });
+    }
+  }, [isSettingsLoading, settings, register]);
+
+  // Handle form submission
   function onSubmit(formData) {
     const numGuests = parseInt(formData.num_guests) || 1;
     const breakfastIncluded = formData.breakfast === "yes";
     const breakfastPrice = parseFloat(settings?.breakfast_price) || 0;
 
+    // Get the room price based on the selected room id from database
     const roomPrice = rooms?.find(
       (room) => room.id === formData.room_id,
     )?.regular_price;
 
-    const numNights = subtractDates(
+    // Calculate the number of nights
+    const differenceInDays = subtractDates(
       format(formData.end_date, "yyyy-MM-dd"),
       format(formData.start_date, "yyyy-MM-dd"),
     );
 
+    // Check if the booking length exceeds the maximum
+    let numNights = differenceInDays;
+    if (differenceInDays >= settings.max_booking_length) {
+      setError("end_date", {
+        type: "manual",
+        message: `Exceeds maximum booking length of ${settings.max_booking_length} days`,
+      });
+      return;
+    }
+
+    // Calculate the extras price
     const extrasPrice = breakfastIncluded
       ? breakfastPrice * numGuests + breakfastPrice * numNights
       : 0;
 
+    // Calculate the total price
     const totalPrice = roomPrice * numNights + extrasPrice;
 
     const booking = {
@@ -94,6 +126,7 @@ function AddBookingForm({ bookingToUpdate = {}, onCloseModal }) {
       extras_price: extrasPrice,
     };
 
+    // Add or update the booking
     if (isUpdateSession)
       updateBooking(
         { id: updateId, newBookingData: booking },
@@ -186,6 +219,7 @@ function AddBookingForm({ bookingToUpdate = {}, onCloseModal }) {
             disabled={isWorking}
             {...register("num_guests", {
               required: "This field is required",
+              valueAsNumber: true,
             })}
           />
         </FormRow>

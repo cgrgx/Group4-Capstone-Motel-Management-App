@@ -17,7 +17,7 @@ import Heading from "../../ui/Heading";
 import ButtonGroup from "../../ui/ButtonGroup";
 import Button from "../../ui/Button";
 import Modal from "../../ui/Modal";
-import ConfirmDelete from "../../ui/ConfirmDelete";
+import ConfirmDialog from "../../ui/ConfirmDialog";
 
 function BookingDetail() {
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
@@ -113,7 +113,7 @@ function BookingDetail() {
             <Button variation="danger">Delete booking</Button>
           </Modal.Open>
           <Modal.Window name="delete">
-            <ConfirmDelete
+            <ConfirmDialog
               resourceName="booking"
               disabled={isDeletingBooking}
               onConfirm={() =>
@@ -140,7 +140,7 @@ function BookingDetail() {
             title="Delete Room"
             type="delete"
           >
-            <ConfirmDelete
+            <ConfirmDialog
               resourceName="room"
               disabled={isDeletingBooking}
               onConfirm={() => {

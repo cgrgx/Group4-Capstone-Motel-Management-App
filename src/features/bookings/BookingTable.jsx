@@ -10,7 +10,7 @@ import { useDeleteBooking } from "./useDeleteBooking";
 import { Table } from "../../ui/Table";
 import Modal from "../../ui/Modal";
 import { formatCurrency, formatDistanceFromNow } from "../../utils/helpers";
-import ConfirmDelete from "../../ui/ConfirmDelete";
+import ConfirmDialog from "../../ui/ConfirmDialog";
 import Spinner from "../../ui/Spinner";
 import ToolTip from "../../ui/ToolTip";
 import AddBookingForm from "./AddBookingForm";
@@ -175,7 +175,7 @@ const BookingTable = () => {
           title="Delete Booking"
           type="delete"
         >
-          <ConfirmDelete
+          <ConfirmDialog
             resourceName="booking"
             disabled={isDeleting}
             onConfirm={() => {
