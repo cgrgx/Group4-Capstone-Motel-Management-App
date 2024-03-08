@@ -45,7 +45,7 @@ export async function getBookings() {
   let { data, error } = await supabase
     .from("bookings")
     .select(
-      "id, created_at,start_date, end_date, num_nights, num_guests, status, total_price, rooms(name), guests(full_name,email)",
+      "id, created_at,start_date, end_date, num_nights, num_guests, status, total_price, rooms(id, name), guests(id, full_name,email)",
       { count: "exact" },
     );
 
@@ -53,7 +53,6 @@ export async function getBookings() {
     console.error(error);
     throw new Error("Bookings could not be loaded");
   }
-  console.log("bookings", data);
 
   return data;
 }

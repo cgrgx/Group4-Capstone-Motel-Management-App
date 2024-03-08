@@ -22,7 +22,6 @@ import ConfirmDelete from "../../ui/ConfirmDelete";
 function BookingDetail() {
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const { booking, isLoading } = useBooking();
-  console.log(booking);
   const { checkout, isCheckingOut } = useCheckout();
   const { deleteBooking, isDeleting: isDeletingBooking } = useDeleteBooking();
   const { updateBooking, isUpdating: isUpdateBooking } = useUpdateBooking();

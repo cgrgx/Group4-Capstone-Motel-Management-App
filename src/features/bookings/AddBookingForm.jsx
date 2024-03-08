@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { format } from "date-fns";
 
@@ -11,7 +11,6 @@ import FormRow from "../../ui/FormRow";
 import ButtonGroup from "../../ui/ButtonGroup";
 import Combobox from "../../ui/Combobox";
 import ListBox from "../../ui/Listbox";
-import Spinner from "../../ui/Spinner";
 import { useAddNewBooking } from "./useAddNewBooking";
 import { useUpdateBooking } from "./useUpdateBooking";
 import { useSettings } from "../settings/useSettings";
@@ -41,7 +40,6 @@ function AddBookingForm({ bookingToUpdate = {}, onCloseModal }) {
     register,
     handleSubmit,
     control,
-    watch,
     reset,
     setValue,
     formState: { errors },
@@ -49,24 +47,26 @@ function AddBookingForm({ bookingToUpdate = {}, onCloseModal }) {
     defaultValues: isUpdateSession ? updateValues : {},
   });
 
-  const watchedRoomId = watch("room_id");
-
-  // set room price
+  // Populate form fields with fetched guest and room data
   useEffect(() => {
-    if (watchedRoomId && rooms) {
-      setValue(
-        "room_price",
-        rooms?.find((room) => room.id === watchedRoomId)?.regular_price,
-      );
+    if (
+      !isGuestsLoading &&
+      !isRoomsLoading &&
+      Object.keys(updateValues).length > 0
+    ) {
+      setValue("guest_id", updateValues.guests?.id || "");
+      setValue("room_id", updateValues.rooms?.id || "");
     }
-  }, [watchedRoomId, rooms, setValue]);
+  }, [isGuestsLoading, isRoomsLoading, updateValues, setValue]);
 
   function onSubmit(formData) {
-    console.log("form data", formData);
     const numGuests = parseInt(formData.num_guests) || 1;
-    const roomPrice = parseFloat(formData.room_price);
     const breakfastIncluded = formData.breakfast === "yes";
     const breakfastPrice = parseFloat(settings?.breakfast_price) || 0;
+
+    const roomPrice = rooms?.find(
+      (room) => room.id === formData.room_id,
+    )?.regular_price;
 
     const numNights = subtractDates(
       format(formData.end_date, "yyyy-MM-dd"),
@@ -90,16 +90,27 @@ function AddBookingForm({ bookingToUpdate = {}, onCloseModal }) {
       status: formData.status,
       has_breakfast: formData.breakfast,
       is_paid: formData.paid,
-      room_price: formData.room_price,
+      room_price: roomPrice,
       extras_price: extrasPrice,
     };
 
-    addNewBooking(booking, {
-      onSuccess: () => {
-        reset();
-        onCloseModal?.();
-      },
-    });
+    if (isUpdateSession)
+      updateBooking(
+        { id: updateId, newBookingData: booking },
+        {
+          onSuccess: () => {
+            reset();
+            onCloseModal?.();
+          },
+        },
+      );
+    else
+      addNewBooking(booking, {
+        onSuccess: () => {
+          reset();
+          onCloseModal?.();
+        },
+      });
   }
 
   function onError(errors) {
@@ -111,7 +122,27 @@ function AddBookingForm({ bookingToUpdate = {}, onCloseModal }) {
       <div className="flex justify-end">
         <AddGuest />
       </div>
+
       <Form onSubmit={handleSubmit(onSubmit, onError)}>
+        <FormRow label="Room" error={errors?.room_id?.message}>
+          {!isRoomsLoading && (
+            <Controller
+              name="room_id"
+              control={control}
+              rules={{ required: "Room is required" }}
+              render={({ field }) => (
+                <ListBox
+                  items={rooms}
+                  selected={field.value || ""}
+                  onChange={(selectedItem) => {
+                    field.onChange(selectedItem.id);
+                  }}
+                />
+              )}
+            />
+          )}
+        </FormRow>
+
         <FormRow label="Guest" error={errors?.guest_id?.message}>
           <div className="flex w-full flex-col gap-y-2">
             {!isGuestsLoading && (
@@ -122,7 +153,7 @@ function AddBookingForm({ bookingToUpdate = {}, onCloseModal }) {
                 render={({ field }) => (
                   <Combobox
                     items={guests}
-                    selected={field?.value}
+                    selected={field.value || ""}
                     onChange={(selectedItem) => {
                       field.onChange(selectedItem.id);
                     }}
@@ -147,25 +178,6 @@ function AddBookingForm({ bookingToUpdate = {}, onCloseModal }) {
             name="end_date"
             rules={{ required: "End date is required" }}
           />
-        </FormRow>
-
-        <FormRow label="Room" error={errors?.room_id?.message}>
-          {!isRoomsLoading && (
-            <Controller
-              name="room_id"
-              control={control}
-              rules={{ required: "Room is required" }}
-              render={({ field }) => (
-                <ListBox
-                  items={rooms}
-                  selected={field.value}
-                  onChange={(selectedItem) => {
-                    field.onChange(selectedItem.id);
-                  }}
-                />
-              )}
-            />
-          )}
         </FormRow>
 
         <FormRow label="Number of guests" error={errors?.num_guests?.message}>

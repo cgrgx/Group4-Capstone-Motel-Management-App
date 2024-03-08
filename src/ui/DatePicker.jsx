@@ -29,7 +29,7 @@ export function DatePicker({ control, name, rules }) {
             )}
           >
             {value ? format(value, "PPP") : <span>Pick a date</span>}
-            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+            <CalendarIcon className="ml-auto h-4 w-4" />
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-full p-0" align="center">

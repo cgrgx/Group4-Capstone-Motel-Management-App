@@ -6,8 +6,8 @@ export function useUpdateBooking() {
   const queryClient = useQueryClient();
 
   const { mutate: updateBooking, isLoading: isUpdating } = useMutation({
-    mutationFn: ({ newBookingData, id }) =>
-      updateBookingApi(newBookingData, id),
+    mutationFn: ({ id, newBookingData }) =>
+      updateBookingApi(id, newBookingData),
     onSuccess: () => {
       toast.success("Booking successfully updated");
       queryClient.invalidateQueries({ queryKey: ["bookings"] });
