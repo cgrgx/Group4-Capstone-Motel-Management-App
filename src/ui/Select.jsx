@@ -1,16 +1,12 @@
-// src/ui/Select.js (assuming your Input component is in src/ui/Input.js)
-import React from "react";
-
-const Select = React.forwardRef(({ children, ...props }, ref) => {
+function Select({ children }) {
   return (
     <select
-      ref={ref}
-      className="block w-full rounded border border-gray-300 bg-white px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
-      {...props}
+      className={`w-full rounded border border-gray-300 bg-gray-50 px-4
+       py-2 text-lg font-medium shadow-sm`}
     >
       {children}
     </select>
   );
-});
-Select.displayName = "Select";
+}
+
 export default Select;
