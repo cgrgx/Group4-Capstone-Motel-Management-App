@@ -4,7 +4,7 @@
 // import { useDeleteCabin } from "./useDeleteCabin";
 // import { useCreateCabin } from "./useCreateCabin";
 // import Modal from "../../ui/Modal";
-// import ConfirmDelete from "../../ui/ConfirmDelete";
+// import ConfirmDialog from "../../ui/ConfirmDialog";
 import Table from "../ui/Tablev1";
 // import Menus from "../../ui/Menus";
 
@@ -85,7 +85,7 @@ function CabinRow({ room }) {
           </Modal.Window>
 
           <Modal.Window name="delete">
-            <ConfirmDelete
+            <ConfirmDialog
               resourceName="cabin"
               disabled={isDeleting}
               onConfirm={() => deleteCabin(cabinId)}

@@ -25,7 +25,13 @@ function SettingsForm() {
   });
 
   const onSubmit = (data) => {
-    updateSetting(data);
+    const settings = {
+      min_booking_length: data.minBookingLength,
+      max_booking_length: data.maxBookingLength,
+      max_guests: data.maxGuests,
+      breakfast_price: data.breakfastPrice,
+    };
+    updateSetting(settings);
   };
 
   if (isLoading) return <div>Loading...</div>;
@@ -42,7 +48,6 @@ function SettingsForm() {
           })}
         />
       </FormRow>
-
       <FormRow label="Maximum nights" error={errors.maxBookingLength?.message}>
         <Input
           type="number"

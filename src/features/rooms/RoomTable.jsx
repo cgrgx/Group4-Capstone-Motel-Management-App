@@ -6,7 +6,7 @@ import { useRooms } from "./useRooms";
 import { useDeleteRoom } from "./useDeleteRoom";
 import { Table } from "../../ui/Table";
 import Modal from "../../ui/Modal";
-import ConfirmDelete from "../../ui/ConfirmDelete";
+import ConfirmDialog from "../../ui/ConfirmDialog";
 import CreateRoomForm from "./CreateRoomForm";
 import Spinner from "../../ui/Spinner";
 import { useUser } from "../authentication/useUser";
@@ -133,7 +133,7 @@ const RoomTable = () => {
           title="Delete Room"
           type="delete"
         >
-          <ConfirmDelete
+          <ConfirmDialog
             resourceName="room"
             disabled={isDeleting}
             onConfirm={() => {

@@ -12,7 +12,7 @@ const variationClasses = {
   orange: "min-w-40 bg-orange-500 hover:bg-orange-700",
   gray: "w-40 bg-gray-50  hover:bg-gray-300",
   red: "w-40 bg-red-600 text-gray-100 hover:bg-red-700",
-  green: "w-40 bg-green-700  hover:bg-green-700 text-gray-100",
+  green: "w-40 bg-green-700 hover:bg-green-700 text-gray-100",
 };
 
 // Button component using Tailwind classes based on props
@@ -23,7 +23,7 @@ const Button = ({
   ...props
 }) => {
   // Combine the classes based on the props
-  const classes = `${sizeClasses[size]} ${variationClasses[variation]} rounded shadow-sm`;
+  const classes = `${sizeClasses[size]} ${variationClasses[variation]} pointer rounded shadow-sm`;
 
   return (
     <button className={classes} {...props}>

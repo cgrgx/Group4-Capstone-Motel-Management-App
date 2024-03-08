@@ -3,7 +3,7 @@ import { Listbox, Transition } from "@headlessui/react";
 import { HiOutlineChevronUpDown, HiCheck } from "react-icons/hi2";
 
 const ListBox = forwardRef(({ items = [], onChange, selected }, ref) => {
-  const selectedItem = items.find((item) => item.id === selected);
+  const selectedItem = selected && items.find((item) => item.id === selected);
   // const [selected, setSelected] = useState(items[0]);
   return (
     <div className="z-10 w-full" ref={ref}>

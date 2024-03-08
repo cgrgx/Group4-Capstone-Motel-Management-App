@@ -6,7 +6,7 @@ import { useGuests } from "./useGuests";
 import { useDeleteGuest } from "./useDeleteGuest";
 import { Table } from "../../ui/Table";
 import Modal from "../../ui/Modal";
-import ConfirmDelete from "../../ui/ConfirmDelete";
+import ConfirmDialog from "../../ui/ConfirmDialog";
 import CreateGuestForm from "./CreateGuestForm";
 import Spinner from "../../ui/Spinner";
 import { useUser } from "../authentication/useUser";
@@ -116,7 +116,7 @@ const GuestTable = () => {
           title="Delete Guest"
           type="delete"
         >
-          <ConfirmDelete
+          <ConfirmDialog
             resourceName="guest"
             disabled={isDeleting}
             onConfirm={() => {

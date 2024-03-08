@@ -6,11 +6,12 @@ import { CgDetailsMore } from "react-icons/cg";
 import { format, isToday } from "date-fns";
 
 import { useBookings } from "./useBookings";
+import { useDeleteBooking } from "./useDeleteBooking";
 import { Table } from "../../ui/Table";
 import Modal from "../../ui/Modal";
-import ConfirmDelete from "../../ui/ConfirmDelete";
-import Spinner from "../../ui/Spinner";
 import { formatCurrency, formatDistanceFromNow } from "../../utils/helpers";
+import ConfirmDialog from "../../ui/ConfirmDialog";
+import Spinner from "../../ui/Spinner";
 import ToolTip from "../../ui/ToolTip";
 import AddBookingForm from "./AddBookingForm";
 import Empty from "../../ui/Empty";
@@ -20,9 +21,10 @@ const columnHelper = createColumnHelper();
 const BookingTable = () => {
   const navigate = useNavigate();
   const { isLoading, bookings } = useBookings();
+  const { isDeleting, deleteBooking } = useDeleteBooking();
   const [isUpdateModalOpen, setUpdateModalOpen] = useState(false);
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [selectedRoom, setSelectedRoom] = useState(null);
+  const [selectedBooking, setSelectedBooking] = useState(null);
 
   if (isLoading) {
     return <Spinner />;
@@ -73,7 +75,7 @@ const BookingTable = () => {
           );
         },
         header: () => <span>Booking Dates</span>,
-        id: "booking_dates", // It's important to give a unique ID
+        id: "booking_dates",
       },
     ),
 
@@ -92,7 +94,7 @@ const BookingTable = () => {
       header: () => <span>Ammount</span>,
     }),
     columnHelper.accessor("actions", {
-      id: "actions", // It's good practice to explicitly set an ID for non-accessor columns
+      id: "actions",
       cell: (info) => (
         <>
           <div className="flex items-center justify-center">
@@ -133,13 +135,13 @@ const BookingTable = () => {
 
   // Open Update Modal
   const handleOpenUpdateModal = (booking) => {
-    setSelectedRoom(booking);
+    setSelectedBooking(booking);
     setUpdateModalOpen(true);
   };
 
   // Open Delete Modal
   const handleOpenDeleteModal = (booking) => {
-    setSelectedRoom(booking);
+    setSelectedBooking(booking);
     setDeleteModalOpen(true);
   };
 
@@ -157,10 +159,10 @@ const BookingTable = () => {
         <Modal
           open={isUpdateModalOpen}
           setOpen={setUpdateModalOpen}
-          title="Update Room"
+          title="Update Booking"
         >
           <AddBookingForm
-            roomToUpdate={selectedRoom}
+            bookingToUpdate={selectedBooking}
             onCloseModal={handleCloseModal}
           />
         </Modal>
@@ -173,11 +175,11 @@ const BookingTable = () => {
           title="Delete Booking"
           type="delete"
         >
-          <ConfirmDelete
+          <ConfirmDialog
             resourceName="booking"
-            // disabled={isDeleting}
+            disabled={isDeleting}
             onConfirm={() => {
-              //   deleteRoom(selectedRoom.id);
+              deleteBooking(selectedBooking.id);
               handleCloseModal?.();
             }}
             onCloseModal={handleCloseModal}
