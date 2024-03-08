@@ -61,7 +61,7 @@ const BookingTable = () => {
                 <span className="font-semibold">
                   {isToday(new Date(startDate))
                     ? "Today"
-                    : formatDistanceFromNow(startDate)}{" "}
+                    : formatDistanceFromNow(startDate)}
                   &rarr; {numNights} night stay
                 </span>
                 <span>
@@ -88,7 +88,7 @@ const BookingTable = () => {
       header: () => "Status",
     }),
     columnHelper.accessor("total_price", {
-      cell: (info) => formatCurrency(info.getValue()),
+      cell: (info) => <span>{formatCurrency(info.getValue())}</span>,
       header: () => <span>Ammount</span>,
     }),
     columnHelper.accessor("actions", {

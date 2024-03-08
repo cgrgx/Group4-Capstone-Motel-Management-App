@@ -7,7 +7,7 @@ function AddGuest() {
   const [isModalOpen, setModalOpen] = useState(false);
 
   return (
-    <div>
+    <>
       <Button onClick={() => setModalOpen(true)}>Create Guest</Button>
 
       {isModalOpen && (
@@ -15,7 +15,7 @@ function AddGuest() {
           <CreateGuestForm onCloseModal={() => setModalOpen(false)} />
         </Modal>
       )}
-    </div>
+    </>
   );
 }
 

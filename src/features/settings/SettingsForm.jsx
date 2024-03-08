@@ -17,10 +17,10 @@ function SettingsForm() {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      minBookingLength: settings?.minBookingLength,
-      maxBookingLength: settings?.maxBookingLength,
-      maxGuestsPerBooking: settings?.maxGuestsPerBooking,
-      breakfastPrice: settings?.breakfastPrice,
+      minBookingLength: settings?.min_booking_length,
+      maxBookingLength: settings?.max_booking_length,
+      maxGuests: settings?.max_guests,
+      breakfastPrice: settings?.breakfast_price,
     },
   });
 
@@ -54,15 +54,12 @@ function SettingsForm() {
         />
       </FormRow>
 
-      <FormRow
-        label="Maximum guests"
-        error={errors.maxGuestsPerBooking?.message}
-      >
+      <FormRow label="Maximum guests" error={errors.maxGuests?.message}>
         <Input
           type="number"
           id="max-guests"
           disabled={isUpdating}
-          {...register("maxGuestsPerBooking", {
+          {...register("maxGuests", {
             required: "This field is required",
           })}
         />
