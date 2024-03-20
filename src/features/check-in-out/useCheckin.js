@@ -12,7 +12,7 @@ export function useCheckin() {
     mutationFn: ({ bookingId, breakfast }) =>
       updateBooking(bookingId, {
         status: "checked-in",
-        isPaid: true,
+        is_paid: true,
         ...breakfast,
       }),
     onSuccess: (data) => {

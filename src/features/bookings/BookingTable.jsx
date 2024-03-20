@@ -82,7 +82,7 @@ const BookingTable = () => {
     columnHelper.accessor("status", {
       cell: (info) => (
         <span
-          className={`rounded-md px-3 py-1 text-sm ${info.getValue() !== "unconfirmed" ? "bg-green-200 text-green-900" : "bg-red-200 text-red-900"}`}
+          className={`rounded-md px-3 py-1 text-sm ${info.getValue() === "checked-out" ? "bg-green-200 text-green-900" : info.getValue() === "checked-in" ? "bg-indigo-200 text-indigo-900" : "bg-red-200 text-red-900"}`}
         >
           {info.getValue()}
         </span>

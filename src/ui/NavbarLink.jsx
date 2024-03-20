@@ -6,7 +6,7 @@ import {
   IoPersonOutline,
   IoSettingsOutline,
 } from "react-icons/io5";
-import { LuSofa } from "react-icons/lu";
+import { MdOutlineBedroomChild } from "react-icons/md";
 import logo from "../data/images/SGM.png";
 
 function Navbar() {
@@ -14,7 +14,7 @@ function Navbar() {
     { path: "/dashboard", name: "Home", icon: IoHomeOutline },
     { path: "/guests", name: "Guests", icon: IoPeopleOutline },
     { path: "/bookings", name: "Bookings", icon: IoCalendarOutline },
-    { path: "/rooms", name: "Rooms", icon: LuSofa },
+    { path: "/rooms", name: "Rooms", icon: MdOutlineBedroomChild },
     { path: "/users", name: "Users", icon: IoPersonOutline },
     { path: "/settings", name: "Settings", icon: IoSettingsOutline },
   ];
