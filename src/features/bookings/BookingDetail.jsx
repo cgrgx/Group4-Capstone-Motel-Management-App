@@ -1,13 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { HiArrowDownOnSquare, HiArrowUpOnSquare } from "react-icons/hi2";
-import { format, isToday } from "date-fns";
-import { formatDistanceFromNow } from "../../utils/helpers";
 
 import { useCheckout } from "../check-in-out/useCheckout";
 import { useBooking } from "./useBooking";
 import { useDeleteBooking } from "./useDeleteBooking";
-import { useUpdateBooking } from "./useUpdateBooking";
 import { useMoveBack } from "../../hooks/useMoveBack";
 
 import Spinner from "../../ui/Spinner";
@@ -18,13 +14,13 @@ import ButtonGroup from "../../ui/ButtonGroup";
 import Button from "../../ui/Button";
 import Modal from "../../ui/Modal";
 import ConfirmDialog from "../../ui/ConfirmDialog";
+import BookingDataBox from "./BookingDataBox";
 
 function BookingDetail() {
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const { booking, isLoading } = useBooking();
   const { checkout, isCheckingOut } = useCheckout();
   const { deleteBooking, isDeleting: isDeletingBooking } = useDeleteBooking();
-  const { updateBooking, isUpdating: isUpdateBooking } = useUpdateBooking();
   const moveBack = useMoveBack();
   const navigate = useNavigate();
 
@@ -33,21 +29,6 @@ function BookingDetail() {
   if (!booking) return <Empty resourceName="booking" />;
 
   const { status, id: bookingId } = booking;
-
-  const {
-    created_at,
-    start_date,
-    end_date,
-    num_nights,
-    num_guests,
-    room_price,
-    extras_price,
-    total_price,
-    has_breakfast,
-    is_paid,
-    guests: { full_name: guestName, email, phone },
-    rooms: { name: roomName, price: roomPrice },
-  } = booking;
 
   // Handle Close Modal
   const handleCloseModal = () => {
@@ -60,39 +41,81 @@ function BookingDetail() {
         <div className="flex items-center gap-8">
           <Heading as="h1">Booking #{bookingId}</Heading>
         </div>
-        <button onClick={moveBack}>&larr; Back</button>
       </Row>
 
-      {/* <BookingDataBox booking={booking} /> */}
-      <div className="flex flex-col gap-4 border border-red-500">
-        <div className="flex justify-between gap-8 bg-slate-200 p-4">
-          <span>Night: {num_nights}</span>
-          <span>Room: {roomName}</span>
-          <span>{status}</span>
+      <BookingDataBox booking={booking} />
+      {/* <div className="flex flex-col gap-4 rounded-md border border-2">
+        <div className="flex justify-between gap-8 bg-slate-200 p-4 font-semibold">
+          <button onClick={moveBack} className=" text-indigo-600">
+            &larr; Back to list
+          </button>
+          <p className="font-poppins flex items-center gap-2 text-sm">
+            <MdOutlineNightShelter className="text-xl text-indigo-500" />
+            <span> Nights: {num_nights}</span>
+          </p>
+          <p className="font-poppins flex items-center gap-2 text-sm">
+            <MdOutlineBedroomChild className="text-xl text-indigo-500" />
+            <span> Room: {roomName}</span>
+          </p>
+          <p
+            className={`rounded-sm px-3 py-1 text-sm uppercase ${status === "checked-out" ? "bg-green-200 text-green-900" : status === "checked-in" ? "bg-indigo-200 text-indigo-900" : "bg-red-200 text-red-900"}`}
+          >
+            {status}
+          </p>
           <p>
-            {format(new Date(start_date), "EEE, MMM dd yyyy")} (
-            {isToday(new Date(start_date))
-              ? "Today"
-              : formatDistanceFromNow(start_date)}
-            ) &mdash; {format(new Date(end_date), "EEE, MMM dd yyyy")}
+            {format(new Date(start_date), " MMM dd yyyy")} &mdash;
+            {format(new Date(end_date), " MMM dd yyyy")}
           </p>
         </div>
-        <div className="flex flex-col gap-4 bg-slate-100 p-4">
-          <span>Guest: {guestName}</span>
-          <span>Email: {email}</span>
-          <span>Phone: {phone}</span>
-          <span>Guests: {num_guests}</span>
-          <span>Price: ${room_price}</span>
-          <span>Extras: ${extras_price}</span>
-          <span>Total: ${total_price}</span>
-          <span>Breakfast: {has_breakfast ? "Yes" : "No"}</span>
+        <div className="flex flex-col gap-4 px-16 py-8">
+          <p className="text-3xl font-bold">{guestName}</p>
+          <p className="font-poppins flex items-center gap-2 text-sm">
+            <IoMailOutline className="text-xl text-indigo-500" />
+            <span>{email}</span>
+          </p>
+          <p className="font-poppins flex items-center gap-2 text-sm">
+            <IoPeopleOutline className="text-xl text-indigo-500" />
+            <span>Total Guests: {num_guests}</span>
+          </p>
+          <p className="font-poppins flex items-center gap-2 text-sm">
+            <span className="text-xl text-indigo-500">
+              <HiOutlineCheckCircle />
+            </span>
+            <span>Breakfast included? {has_breakfast ? "Yes" : "No"}</span>
+          </p>
+          <div className="font-poppins flex items-center gap-2 text-sm">
+            <HiOutlineCurrencyDollar className="text-xl text-indigo-500" />
+            <span>Total Price: {formatCurrency(total_price)}</span>
+            {has_breakfast &&
+              ` (${formatCurrency(room_price)} room + ${formatCurrency(
+                extras_price,
+              )} breakfast)`}
+          </div>
+          <p className="font-poppins flex items-center gap-2 ">
+            <MdOutlinePayments className="text-xl text-indigo-500" />
+            <span className="text-sm">
+              Payment status:
+              {is_paid ? (
+                <span className="ml-2 font-medium text-green-500">Paid</span>
+              ) : (
+                <span className="ml-2 font-medium text-indigo-500">
+                  Will pay on arrival
+                </span>
+              )}
+            </span>
+          </p>
         </div>
-      </div>
+        <footer className="flex justify-end border-t px-6 py-2">
+          <p className="text-sm">
+            Booked on: {format(new Date(created_at), "EEE, MMM dd yyyy, p")}
+          </p>
+        </footer>
+      </div> */}
 
       <ButtonGroup>
         {status === "unconfirmed" && (
           <Button
-            icon={<HiArrowDownOnSquare />}
+            variation="indigo"
             onClick={() => navigate(`/checkin/${bookingId}`)}
           >
             Check in
@@ -100,33 +123,12 @@ function BookingDetail() {
         )}
 
         {status === "checked-in" && (
-          <Button
-            icon={<HiArrowUpOnSquare />}
-            onClick={() => checkout(bookingId)}
-            disabled={isCheckingOut}
-          >
+          <Button onClick={() => checkout(bookingId)} disabled={isCheckingOut}>
             Check out
           </Button>
         )}
-        {/* <Modal>
-          <Modal.Open opens="delete">
-            <Button variation="danger">Delete booking</Button>
-          </Modal.Open>
-          <Modal.Window name="delete">
-            <ConfirmDialog
-              resourceName="booking"
-              disabled={isDeletingBooking}
-              onConfirm={() =>
-                deleteBooking(bookingId, {
-                  onSettled: () => {
-                    navigate(-1);
-                  },
-                })
-              }
-            />
-          </Modal.Window>
-        </Modal> */}
         <Button
+          variation="red"
           onClick={() => setDeleteModalOpen(true)}
           disabled={isDeletingBooking}
         >
@@ -137,11 +139,11 @@ function BookingDetail() {
           <Modal
             open={isDeleteModalOpen}
             setOpen={setDeleteModalOpen}
-            title="Delete Room"
+            title="Delete Booking"
             type="delete"
           >
             <ConfirmDialog
-              resourceName="room"
+              resourceName="booking"
               disabled={isDeletingBooking}
               onConfirm={() => {
                 deleteBooking(booking.id, {
@@ -155,7 +157,7 @@ function BookingDetail() {
             />
           </Modal>
         )}
-        <Button variation="secondary" onClick={moveBack}>
+        <Button variation="gray" onClick={moveBack}>
           Back
         </Button>
       </ButtonGroup>

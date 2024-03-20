@@ -82,11 +82,6 @@ function AddBookingForm({ bookingToUpdate = {}, onCloseModal }) {
     const breakfastIncluded = formData.breakfast === "yes";
     const breakfastPrice = parseFloat(settings?.breakfast_price) || 0;
 
-    // Get the room price based on the selected room id from database
-    const roomPrice = rooms?.find(
-      (room) => room.id === formData.room_id,
-    )?.regular_price;
-
     // Calculate the number of nights
     const differenceInDays = subtractDates(
       format(formData.end_date, "yyyy-MM-dd"),
@@ -103,13 +98,18 @@ function AddBookingForm({ bookingToUpdate = {}, onCloseModal }) {
       return;
     }
 
+    // Get the room price based on the selected room id from database
+    const roomPrice =
+      rooms?.find((room) => room.id === formData.room_id)?.regular_price *
+      numNights;
+
     // Calculate the extras price
     const extrasPrice = breakfastIncluded
       ? breakfastPrice * numGuests + breakfastPrice * numNights
       : 0;
 
     // Calculate the total price
-    const totalPrice = roomPrice * numNights + extrasPrice;
+    const totalPrice = roomPrice + extrasPrice;
 
     const booking = {
       guest_id: formData.guest_id,
@@ -231,8 +231,8 @@ function AddBookingForm({ bookingToUpdate = {}, onCloseModal }) {
             {...register("status", { required: "Status is required" })}
           >
             <option value="unconfirmed">Unconfirmed</option>
-            <option value="checked_in">Checked-In</option>
-            <option value="checked_out">Checked-Out</option>
+            <option value="checked-in">Checked-In</option>
+            <option value="checked-out">Checked-Out</option>
           </select>
         </FormRow>
 
