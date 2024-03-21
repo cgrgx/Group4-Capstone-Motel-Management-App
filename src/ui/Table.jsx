@@ -179,7 +179,7 @@ export const Table = ({
                           key={header.id}
                           colSpan={header.colSpan}
                           scope="col"
-                          className="px-6 py-4 text-center text-lg font-medium text-gray-500"
+                          className="px-6 py-4 text-left text-lg font-medium text-gray-500"
                         >
                           {header.isPlaceholder ? null : (
                             <button
@@ -192,7 +192,7 @@ export const Table = ({
                               }}
                             >
                               <div className="flex items-center">
-                                <span className="ml-2">
+                                <span>
                                   {flexRender(
                                     header.column.columnDef.header,
                                     header.getContext(),
@@ -311,8 +311,8 @@ export const Table = ({
                               key={cell.id}
                               className=" whitespace-nowrap px-6 py-4"
                             >
-                              <div className="flex items-center justify-center">
-                                <div className="text-md text-gray-700">
+                              <div className="flex items-center justify-start text-center">
+                                <div className="text-md  text-gray-700">
                                   {flexRender(
                                     cell.column.columnDef.cell,
                                     cell.getContext(),

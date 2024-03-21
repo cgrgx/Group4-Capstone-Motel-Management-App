@@ -33,11 +33,11 @@ function BookingDataBox({ booking }) {
         <button onClick={moveBack} className=" text-indigo-600">
           &larr; Back to list
         </button>
-        <p className="font-poppins flex items-center gap-2 text-sm">
+        <p className="text-md flex items-center gap-2 font-semibold">
           <MdOutlineNightShelter className="text-xl text-indigo-500" />
           <span> Nights: {num_nights}</span>
         </p>
-        <p className="font-poppins flex items-center gap-2 text-sm">
+        <p className="text-md flex items-center gap-2 font-semibold">
           <MdOutlineBedroomChild className="text-xl text-indigo-500" />
           <span> Room: {roomName}</span>
         </p>
@@ -53,21 +53,21 @@ function BookingDataBox({ booking }) {
       </div>
       <div className="flex flex-col gap-4 px-16 py-8">
         <p className="text-3xl font-bold">{guestName}</p>
-        <p className="font-poppins flex items-center gap-2 text-sm">
+        <p className="flex items-center gap-2 font-poppins text-sm">
           <IoMailOutline className="text-xl text-indigo-500" />
           <span>{email}</span>
         </p>
-        <p className="font-poppins flex items-center gap-2 text-sm">
+        <p className="flex items-center gap-2 font-poppins text-sm">
           <IoPeopleOutline className="text-xl text-indigo-500" />
           <span>Total Guests: {num_guests}</span>
         </p>
-        <p className="font-poppins flex items-center gap-2 text-sm">
+        <p className="flex items-center gap-2 font-poppins text-sm">
           <span className="text-xl text-indigo-500">
             <HiOutlineCheckCircle />
           </span>
           <span>Breakfast included? {has_breakfast ? "Yes" : "No"}</span>
         </p>
-        <div className="font-poppins flex items-center gap-2 text-sm">
+        <div className="flex items-center gap-2 font-poppins text-sm">
           <HiOutlineCurrencyDollar className="text-xl text-indigo-500" />
           <span>Total Price: {formatCurrency(total_price)}</span>
           {has_breakfast &&
@@ -75,7 +75,7 @@ function BookingDataBox({ booking }) {
               extras_price,
             )} breakfast)`}
         </div>
-        <p className="font-poppins flex items-center gap-2 ">
+        <p className="flex items-center gap-2 font-poppins ">
           <MdOutlinePayments className="text-xl text-indigo-500" />
           <span className="text-sm">
             Payment status:
