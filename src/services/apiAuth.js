@@ -77,6 +77,7 @@ export async function updateCurrentUser({ password, fullName, avatar }) {
   return updatedUser;
 }
 
+// Function to set user as admin
 export async function setAdmin(userId) {
   const { data, error } = await supabase.rpc("set_claim", {
     uid: userId,
@@ -84,6 +85,18 @@ export async function setAdmin(userId) {
     value: true,
   });
 
+  if (error) throw new Error(error.message);
+
+  return data;
+}
+
+// Function to remove admin role from user
+export async function removeAdmin(userId) {
+  const { data, error } = await supabase.rpc("set_claim", {
+    uid: userId,
+    claim: "claims_admin",
+    value: false,
+  });
   if (error) throw new Error(error.message);
 
   return data;

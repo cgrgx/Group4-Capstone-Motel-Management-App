@@ -3,9 +3,14 @@ import Button from "./Button";
 function ConfirmDialog({ resourceName, onConfirm, disabled, onCloseModal }) {
   return (
     <div className="flex w-full flex-col gap-5">
-      {resourceName === "user" ? (
+      {resourceName === "regular" ? (
         <p className="text-lg">
-          Are you sure you want to maket this {resourceName} an admin?
+          Are you sure you want to make this {resourceName} user an admin?
+        </p>
+      ) : resourceName === "admin" ? (
+        <p className="text-lg">
+          Are you sure you want to remove this user from the
+          {resourceName} role?
         </p>
       ) : (
         <p className="text-lg">
