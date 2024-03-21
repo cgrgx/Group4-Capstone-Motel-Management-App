@@ -6,12 +6,11 @@ import { RiAdminLine } from "react-icons/ri";
 import { useUser } from "./useUser";
 import { useUsers } from "./useUsers";
 import { useSetAdmin } from "./useSetAdmin";
+import { useRemoveAdmin } from "./useRemoveAdmin";
 
-import SignupForm from "./SignupForm";
 import { Table } from "../../ui/Table";
 import Spinner from "../../ui/Spinner";
 import Modal from "../../ui/Modal";
-import Button from "../../ui/Button";
 import ToolTip from "../../ui/ToolTip";
 import ConfirmDialog from "@/ui/ConfirmDialog";
 
@@ -21,10 +20,11 @@ const UserTable = () => {
   const { isAdmin } = useUser();
   const { isLoading, users } = useUsers();
   const { setAdmin, isUpdating } = useSetAdmin();
+  const { removeAdmin, isUpdating: isRemoving } = useRemoveAdmin();
   const [isAdminModalOpen, setAdminModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
 
-  if (isLoading) {
+  if (isLoading || isRemoving || isUpdating) {
     return <Spinner />;
   }
   const columns = [
@@ -53,13 +53,25 @@ const UserTable = () => {
       cell: (info) => (
         <>
           {isAdmin ? (
-            <ToolTip
-              text="Make Admin"
-              onClick={() => handleOpenAdminModal(info.row.original)}
-              className={"text-red-600 hover:text-red-900"}
-            >
-              <RiAdminLine />
-            </ToolTip>
+            <>
+              {info.row.original.role === "regular" ? (
+                <ToolTip
+                  text="Make Admin"
+                  onClick={() => handleOpenAdminModal(info.row.original)}
+                  className={"text-indigo-600 hover:text-indigo-900"}
+                >
+                  <RiAdminLine />
+                </ToolTip>
+              ) : (
+                <ToolTip
+                  text="Remove Admin"
+                  onClick={() => handleOpenAdminModal(info.row.original)}
+                  className={"text-red-600 hover:text-red-900"}
+                >
+                  <RiAdminLine />
+                </ToolTip>
+              )}
+            </>
           ) : (
             <p>Your are not an admin</p>
           )}
@@ -70,6 +82,7 @@ const UserTable = () => {
   ];
 
   const handleOpenAdminModal = (user) => {
+    console.log("user", user);
     setSelectedUser(user);
     setAdminModalOpen(true);
   };
@@ -88,10 +101,14 @@ const UserTable = () => {
           title="Make Admin?"
         >
           <ConfirmDialog
-            resourceName="user"
+            resourceName={
+              selectedUser?.role === "regular" ? "regular" : "admin"
+            }
             disabled={isUpdating}
             onConfirm={() => {
-              setAdmin(selectedUser.id);
+              selectedUser.role === "regular"
+                ? setAdmin(selectedUser.id)
+                : removeAdmin(selectedUser.id);
               handleCloseModal?.();
             }}
             onCloseModal={handleCloseModal}
