@@ -9,16 +9,12 @@ import Stat from "./Stat";
 import { formatCurrency } from "../../utils/helpers";
 
 function Stats({ bookings, confirmedStays, numDays, roomCount }) {
-  // 1.
   const numBookings = bookings.length;
 
-  // 2.
   const sales = bookings.reduce((acc, curr) => acc + curr.total_price, 0);
 
-  // 3.
   const checkIns = confirmedStays.length;
 
-  // 4.
   const occupancy =
     confirmedStays.reduce((acc, curr) => acc + curr.num_nights, 0) /
     (numDays * roomCount);
@@ -34,7 +30,6 @@ function Stats({ bookings, confirmedStays, numDays, roomCount }) {
       />
       <Stat
         title="Sales"
-        color="green"
         icon={<HiOutlineBanknotes className="h-10 w-10 text-green-700" />}
         value={formatCurrency(sales)}
       />

@@ -4,7 +4,8 @@ import { useRooms } from "../rooms/useRooms";
 import Spinner from "../../ui/Spinner";
 import Stats from "./Stats";
 import DurationChart from "./DurationChart";
-// import SalesChart from "./SalesChart";
+import SalesChart from "./SalesChart";
+import { Table } from "lucide-react";
 // import DurationChart from "./DurationChart";
 // import TodayActivity from "../check-in-out/TodayActivity";
 
@@ -35,8 +36,9 @@ function DashboardLayout() {
         roomCount={rooms.length}
       />
       <DurationChart confirmedStays={confirmedStays} />
+      <SalesChart bookings={bookings} numDays={numDays} />
       {/* <TodayActivity />
-      <SalesChart bookings={bookings} numDays={numDays} /> */}
+       */}
     </div>
   );
 }

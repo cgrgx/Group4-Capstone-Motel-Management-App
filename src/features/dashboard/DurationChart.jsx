@@ -1,4 +1,3 @@
-import Heading from "../../ui/Heading";
 import {
   Cell,
   Legend,
@@ -7,12 +6,13 @@ import {
   ResponsiveContainer,
   Tooltip,
 } from "recharts";
+import Heading from "../../ui/Heading";
 
 const startData = [
   {
     duration: "1 night",
     value: 0,
-    color: "#ef4444",
+    color: "#f94144",
   },
   {
     duration: "2 nights",
@@ -32,22 +32,22 @@ const startData = [
   {
     duration: "6-7 nights",
     value: 0,
-    color: "#22c55e",
+    color: "#43aa8b",
   },
   {
     duration: "8-14 nights",
     value: 0,
-    color: "#14b8a6",
+    color: "#4d908e",
   },
   {
     duration: "15-21 nights",
     value: 0,
-    color: "#3b82f6",
+    color: "#577590",
   },
   {
     duration: "21+ nights",
     value: 0,
-    color: "#a855f7",
+    color: "#277da1",
   },
 ];
 
@@ -79,8 +79,8 @@ function prepareData(startData, stays) {
 function DurationChart({ confirmedStays }) {
   const data = prepareData(startData, confirmedStays);
   return (
-    <div className="col-span-2 rounded-md border border-gray-200 bg-gray-100 p-8">
-      <div className="mb-4">
+    <div className="col-span-2 rounded-md border border-gray-200 bg-gray-100  p-6 shadow-sm">
+      <div className="mb-12 border-b border-gray-300 pb-6 uppercase">
         <Heading as="h2">Stay duration summary</Heading>
       </div>
       <ResponsiveContainer width="100%" height={240}>
@@ -91,7 +91,7 @@ function DurationChart({ confirmedStays }) {
             dataKey="value"
             innerRadius={85}
             outerRadius={110}
-            cx="50%"
+            cx="40%"
             cy="50%"
             paddingAngle={3}
           >

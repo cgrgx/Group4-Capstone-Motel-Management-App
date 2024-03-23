@@ -5,27 +5,13 @@ import { useUser } from "../features/authentication/useUser";
 import Row from "@/ui/Row";
 import Heading from "@/ui/Heading";
 import DashboardLayout from "@/features/dashboard/DashboardLayout";
+import DashboardFilter from "@/features/dashboard/DashboardFilter";
 
 function Dashboard() {
-  const [userRoles, setUserRoles] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const { logout, isLoading } = useLogout();
-
   const { user, isAdmin } = useUser();
   console.log("user", user);
 
-  // const {
-  //   isLoading: adminLoading,
-  //   isAdmin,
-  //   error: adminError,
-  // } = useAdmin(user?.id);
-  // let isAdmin = user.app_metadata?.claims_admin || false;
-
   console.log("isAdmin", isAdmin);
-
-  // if (adminLoading) {
-  //   return <div>Loading...</div>;
-  // }
 
   return (
     // <div>
@@ -38,7 +24,7 @@ function Dashboard() {
     <>
       <Row type="horizontal">
         <Heading as="h1">Dashboard</Heading>
-        {/* <DashboardFilter /> */}
+        <DashboardFilter />
       </Row>
       <DashboardLayout />
     </>
