@@ -2,6 +2,9 @@ import { useState } from "react";
 
 import { useLogout } from "../features/authentication/useLogout";
 import { useUser } from "../features/authentication/useUser";
+import Row from "@/ui/Row";
+import Heading from "@/ui/Heading";
+import DashboardLayout from "@/features/dashboard/DashboardLayout";
 
 function Dashboard() {
   const [userRoles, setUserRoles] = useState([]);
@@ -25,13 +28,20 @@ function Dashboard() {
   // }
 
   return (
-    <div>
-      {isAdmin ? (
-        <h1 className="text-3xl">Admin</h1>
-      ) : (
-        <h1 className="text-3xl">User</h1>
-      )}
-    </div>
+    // <div>
+    //   {isAdmin ? (
+    //     <h1 className="text-3xl">Admin</h1>
+    //   ) : (
+    //     <h1 className="text-3xl">User</h1>
+    //   )}
+    // </div>
+    <>
+      <Row type="horizontal">
+        <Heading as="h1">Dashboard</Heading>
+        {/* <DashboardFilter /> */}
+      </Row>
+      <DashboardLayout />
+    </>
   );
 }
 
