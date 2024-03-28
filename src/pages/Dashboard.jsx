@@ -6,6 +6,7 @@ import Row from "@/ui/Row";
 import Heading from "@/ui/Heading";
 import DashboardLayout from "@/features/dashboard/DashboardLayout";
 import DashboardFilter from "@/features/dashboard/DashboardFilter";
+import Uploader from "@/data/Uploader";
 
 function Dashboard() {
   const { user, isAdmin } = useUser();
@@ -27,6 +28,9 @@ function Dashboard() {
         <DashboardFilter />
       </Row>
       <DashboardLayout />
+      <Row type="horizontal">
+        <Uploader />
+      </Row>
     </>
   );
 }
