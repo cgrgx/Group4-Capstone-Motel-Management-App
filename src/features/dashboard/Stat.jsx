@@ -1,7 +1,7 @@
 function Stat({ icon, title, value }) {
   return (
-    <div className="flex justify-between gap-4 rounded-md border p-6 shadow-sm">
-      <div className="flex h-14 w-14 items-center justify-center rounded-full bg-gray-200 p-2">
+    <div className="flex justify-between gap-4 rounded-md border bg-gray-50 p-6 shadow-sm">
+      <div className="flex h-14 w-14 items-center justify-center rounded-full bg-gray-100 p-2">
         {icon}
       </div>
       <div className="flex flex-col items-start justify-end gap-2 text-left font-poppins">

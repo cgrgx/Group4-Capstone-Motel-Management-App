@@ -48,6 +48,10 @@ function CreateGuestForm({ guestToUpdate = {}, onCloseModal }) {
     console.log(errors);
   }
 
+  // Regular expression for Canadian phone number validation
+  const canadianPhoneRegex =
+    /^(?:\+1|1)?[-. ]?\(?(?:\d{3})\)?[-. ]?\d{3}[-. ]?\d{4}(?: x\d+)?$/;
+
   return (
     <Form onSubmit={handleSubmit(onSubmit, onError)}>
       <FormRow label="Full Name" error={errors?.full_name?.message}>
@@ -79,6 +83,10 @@ function CreateGuestForm({ guestToUpdate = {}, onCloseModal }) {
           disabled={isWorking}
           {...register("phone", {
             required: "This field is required",
+            pattern: {
+              value: canadianPhoneRegex,
+              message: "Invalid Canadian phone number format",
+            },
           })}
         />
       </FormRow>
