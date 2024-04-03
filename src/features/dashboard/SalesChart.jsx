@@ -4,9 +4,8 @@ import { eachDayOfInterval, format, isSameDay, subDays } from "date-fns";
 import Heading from "../../ui/Heading";
 import { formatCurrency } from "@/utils/helpers";
 
-const valueFormatter = function (number) {
-  return "$ " + new Intl.NumberFormat("us").format(number).toString();
-};
+const dataFormatter = (number) =>
+  `$${Intl.NumberFormat("us").format(number).toString()}`;
 
 function SalesChart({ bookings, numDays }) {
   const allDates = eachDayOfInterval({
@@ -25,7 +24,6 @@ function SalesChart({ bookings, numDays }) {
         .reduce((acc, cur) => acc + cur.extras_price, 0),
     };
   });
-  console.log("data", data);
 
   // Function to calculate total sales revenue
   function calculateTotalSalesRevenue(dataObjects) {
@@ -38,7 +36,7 @@ function SalesChart({ bookings, numDays }) {
   const totalSalesRevenue = calculateTotalSalesRevenue(data);
   return (
     <>
-      <div className="col-span-2 w-full rounded-md border border-gray-200 bg-gray-100 p-6 shadow-sm">
+      <div className="col-span-2 w-full rounded-md border border-gray-200 bg-gray-50 p-6 shadow-sm">
         <div className=" flex items-center justify-between border-b border-gray-300 pb-6 uppercase">
           <Heading as="h2">Sales Revenue</Heading>
           <p className="font-poppins text-2xl font-bold text-gray-600">
@@ -46,15 +44,13 @@ function SalesChart({ bookings, numDays }) {
           </p>
         </div>
         <AreaChart
-          className="mt-8 h-96"
+          className="mt-4 h-72"
           data={data}
           index="label"
           yAxisWidth={76}
           categories={["Total Sales", "Extras Sales"]}
           colors={["indigo", "orange"]}
-          valueFormatter={valueFormatter}
-          margin={{ top: 16, right: 16, bottom: 24, left: 24 }}
-          showLegend={true}
+          valueFormatter={dataFormatter}
           showAnimation={true}
           animationDuration={2000}
         />

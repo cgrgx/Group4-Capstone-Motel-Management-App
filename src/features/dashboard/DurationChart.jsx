@@ -79,7 +79,7 @@ function prepareData(startData, stays) {
 function DurationChart({ confirmedStays }) {
   const data = prepareData(startData, confirmedStays);
   return (
-    <div className="col-span-2 rounded-md border border-gray-200 bg-gray-100  p-6 shadow-sm">
+    <div className="col-span-2 rounded-md border border-gray-200 bg-gray-50  p-6 shadow-sm">
       <div className="mb-12 border-b border-gray-300 pb-6 uppercase">
         <Heading as="h2">Stay duration summary</Heading>
       </div>

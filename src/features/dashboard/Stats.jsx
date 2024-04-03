@@ -9,16 +9,21 @@ import Stat from "./Stat";
 import { formatCurrency } from "../../utils/helpers";
 
 function Stats({ bookings, confirmedStays, numDays, roomCount }) {
+  // total bookings
   const numBookings = bookings.length;
 
+  // total sales
   const sales = bookings.reduce((acc, curr) => acc + curr.total_price, 0);
 
+  // check ins
   const checkIns = confirmedStays.length;
 
+  // occupancy
   const occupancy =
     confirmedStays.reduce((acc, curr) => acc + curr.num_nights, 0) /
     (numDays * roomCount);
 
+  // occupancy rate
   const occupancyRate = `${Math.round(occupancy * 100)}%`;
 
   return (

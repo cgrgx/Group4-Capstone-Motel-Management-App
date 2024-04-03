@@ -24,8 +24,6 @@ function Filter({ filterField, options }) {
           }`}
           disabled={option.value === currentFilter}
         >
-          {console.log(option.value)}
-          {console.log(currentFilter)}
           {option.label}
         </button>
       ))}

@@ -6,9 +6,10 @@ import Input from "../../ui/Input";
 import ButtonGroup from "../../ui/ButtonGroup";
 import { useSettings } from "./useSettings";
 import { useUpdateSetting } from "./useUpdateSetting";
+import Spinner from "@/ui/Spinner";
 
 function SettingsForm() {
-  const { isLoading, settings } = useSettings();
+  const { isLoading: isSettingsLoading, settings } = useSettings();
   const { updateSetting, isUpdating } = useUpdateSetting();
 
   const {
@@ -34,7 +35,7 @@ function SettingsForm() {
     updateSetting(settings);
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isSettingsLoading || isUpdating) return <Spinner />;
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
