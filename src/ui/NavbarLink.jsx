@@ -6,16 +6,19 @@ import {
   IoPersonOutline,
   IoSettingsOutline,
 } from "react-icons/io5";
-import { MdOutlineBedroomChild } from "react-icons/md";
+import { MdOutlineBedroomChild, MdAttachMoney } from "react-icons/md";
+import { RiChatSettingsLine } from "react-icons/ri";
 import logo from "../data/images/SGM.png";
 
 function Navbar() {
   const navItems = [
     { path: "/dashboard", name: "Home", icon: IoHomeOutline },
-    { path: "/guests", name: "Guests", icon: IoPeopleOutline },
     { path: "/bookings", name: "Bookings", icon: IoCalendarOutline },
+    { path: "/guests", name: "Guests", icon: IoPeopleOutline },
     { path: "/rooms", name: "Rooms", icon: MdOutlineBedroomChild },
     { path: "/users", name: "Users", icon: IoPersonOutline },
+    { path: "/services", name: "Services", icon: RiChatSettingsLine },
+    { path: "/payments", name: "Payments", icon: MdAttachMoney },
     { path: "/settings", name: "Settings", icon: IoSettingsOutline },
   ];
   const activeLinkStyles = "bg-gray-200 font-bold";

@@ -5,6 +5,7 @@ import { MdOutlineDelete, MdOutlineModeEdit } from "react-icons/md";
 import { CgDetailsMore } from "react-icons/cg";
 import { format, isToday } from "date-fns";
 
+import { useBooking } from "./useBooking";
 import { useBookings } from "./useBookings";
 import { useDeleteBooking } from "./useDeleteBooking";
 import { Table } from "../../ui/Table";

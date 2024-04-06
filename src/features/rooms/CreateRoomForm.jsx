@@ -75,7 +75,7 @@ function CreateRoomForm({ roomToUpdate = {}, onCloseModal }) {
         />
       </FormRow>
 
-      <FormRow label="Bed" error={errors?.bed_type?.message}>
+      <FormRow label="Bed Type" error={errors?.bed_type?.message}>
         <Input
           type="text"
           id="bed_type"
@@ -86,7 +86,7 @@ function CreateRoomForm({ roomToUpdate = {}, onCloseModal }) {
         />
       </FormRow>
 
-      <FormRow label="Maximum capacity" error={errors?.max_capacity?.message}>
+      <FormRow label="Maximum Capacity" error={errors?.max_capacity?.message}>
         <Input
           type="number"
           id="max_capacity"
@@ -98,7 +98,7 @@ function CreateRoomForm({ roomToUpdate = {}, onCloseModal }) {
         />
       </FormRow>
 
-      <FormRow label="Regular price" error={errors?.regular_price?.message}>
+      <FormRow label="Regular Price($)" error={errors?.regular_price?.message}>
         <Input
           type="number"
           id="regular_price"
@@ -109,7 +109,7 @@ function CreateRoomForm({ roomToUpdate = {}, onCloseModal }) {
         />
       </FormRow>
 
-      <FormRow label="Discount" error={errors?.discount_price?.message}>
+      <FormRow label="Discount($)" error={errors?.discount_price?.message}>
         <Input
           type="number"
           id="discount_price"

@@ -9,6 +9,8 @@ import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import Rooms from "./pages/Rooms";
 import Users from "./pages/Users";
+import Services from "./pages/Services";
+import Payments from "./pages/Payments";
 import Settings from "./pages/Settings";
 import Account from "./pages/Account";
 import Bookings from "./pages/Bookings";
@@ -44,6 +46,8 @@ function App() {
               <Route index element={<Navigate replace to="dashboard" />} />
               <Route path="dashboard" element={<Dashboard />} />
               <Route path="rooms" element={<Rooms />} />
+              <Route path="services" element={<Services />} />
+              <Route path="payments" element={<Payments />} />
               <Route path="users" element={<Users />} />
               <Route path="settings" element={<Settings />} />
               <Route path="bookings" element={<Bookings />} />

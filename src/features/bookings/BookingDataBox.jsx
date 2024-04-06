@@ -26,6 +26,7 @@ function BookingDataBox({ booking }) {
     is_paid,
     guests: { full_name: guestName, email, phone },
     rooms: { name: roomName, price: roomPrice },
+    services,
   } = booking;
   return (
     <div className="flex flex-col gap-4 rounded-md border border-2">
@@ -51,43 +52,73 @@ function BookingDataBox({ booking }) {
           {format(new Date(end_date), " MMM dd yyyy")}
         </p>
       </div>
-      <div className="flex flex-col gap-4 px-16 py-8">
-        <p className="text-3xl font-bold">{guestName}</p>
-        <p className="flex items-center gap-2 font-poppins text-sm">
-          <IoMailOutline className="text-xl text-indigo-500" />
-          <span>{email}</span>
-        </p>
-        <p className="flex items-center gap-2 font-poppins text-sm">
-          <IoPeopleOutline className="text-xl text-indigo-500" />
-          <span>Total Guests: {num_guests}</span>
-        </p>
-        <p className="flex items-center gap-2 font-poppins text-sm">
-          <span className="text-xl text-indigo-500">
-            <HiOutlineCheckCircle />
-          </span>
-          <span>Breakfast included? {has_breakfast ? "Yes" : "No"}</span>
-        </p>
-        <div className="flex items-center gap-2 font-poppins text-sm">
-          <HiOutlineCurrencyDollar className="text-xl text-indigo-500" />
-          <span>Total Price: {formatCurrency(total_price)}</span>
-          {has_breakfast &&
-            ` (${formatCurrency(room_price)} room + ${formatCurrency(
-              extras_price,
-            )} breakfast)`}
+      <div className="grid grid-cols-2 gap-4">
+        <div className="col-span-1 flex flex-col gap-4 px-16 py-8">
+          <p className="text-3xl font-bold">{guestName}</p>
+          <p className="flex items-center gap-2 font-poppins text-sm">
+            <IoMailOutline className="text-xl text-indigo-500" />
+            <span className="font-medium">{email}</span>
+          </p>
+          <p className="flex items-center gap-2 font-poppins text-sm">
+            <IoPeopleOutline className="text-xl text-indigo-500" />
+            <span className="font-medium">Total Guests: {num_guests}</span>
+          </p>
+          <p className="flex items-center gap-2 font-poppins text-sm">
+            <span className="text-xl text-indigo-500">
+              <HiOutlineCheckCircle />
+            </span>
+            <span className="font-medium">
+              Breakfast included? {has_breakfast ? "Yes" : "No"}
+            </span>
+          </p>
+          <div className="flex items-center gap-2 font-poppins text-sm">
+            <HiOutlineCurrencyDollar className="text-xl text-indigo-500" />
+            <span className="font-medium">
+              Total Price: {formatCurrency(total_price)}
+            </span>
+            {(has_breakfast || services.length > 0) &&
+              ` (${formatCurrency(room_price)} room + ${formatCurrency(
+                extras_price,
+              )} extras)`}
+          </div>
+          <p className="flex items-center gap-2 font-poppins text-sm">
+            <MdOutlinePayments className="text-xl text-indigo-500" />
+            <span className="font-medium">
+              Payment status:
+              {is_paid ? (
+                <span className="ml-2 font-medium text-green-500">Paid</span>
+              ) : (
+                <span className="ml-2 font-medium text-indigo-500">
+                  Will pay on arrival
+                </span>
+              )}
+            </span>
+          </p>
         </div>
-        <p className="flex items-center gap-2 font-poppins ">
-          <MdOutlinePayments className="text-xl text-indigo-500" />
-          <span className="text-sm">
-            Payment status:
-            {is_paid ? (
-              <span className="ml-2 font-medium text-green-500">Paid</span>
-            ) : (
-              <span className="ml-2 font-medium text-indigo-500">
-                Will pay on arrival
-              </span>
+        <div className="col-span-1 mt-8 flex flex-col gap-4 px-16 py-8">
+          <p className="text-xl font-semibold">Services</p>
+          <ul className="flex flex-col gap-4">
+            {services.length === 0 && (
+              <p className="text-lg">No services added.</p>
             )}
-          </span>
-        </p>
+            {services.map((service) => (
+              <li
+                key={service.id}
+                className="flex items-center gap-2 font-poppins text-sm"
+              >
+                <span className="text-2xl text-indigo-500">
+                  <HiOutlineCheckCircle />
+                </span>
+                <p className="font-medium">
+                  {service.service_name}({formatCurrency(service.price)}) -
+                  <span className="ml-2 text-xs font-normal">
+                    {service.description}
+                  </span>
+                </p>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
       <footer className="flex justify-end border-t px-6 py-2">
         <p className="text-sm">

@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { format } from "date-fns";
 
@@ -18,20 +18,25 @@ import { useRooms } from "../rooms/useRooms";
 import { useGuests } from "../guests/useGuests";
 import AddGuest from "../guests/AddGuest";
 import { subtractDates } from "../../utils/helpers";
+import { useServices } from "../services/useServices";
+import Spinner from "@/ui/Spinner";
 
 function AddBookingForm({ bookingToUpdate = {}, onCloseModal }) {
   const { isAdding, addNewBooking } = useAddNewBooking();
   const { isUpdating, updateBooking } = useUpdateBooking();
   const { rooms, isLoading: isRoomsLoading } = useRooms();
   const { guests, isLoading: isGuestsLoading } = useGuests();
+  const { services, isLoading: isServicesLoading } = useServices();
   const { settings, isLoading: isSettingsLoading } = useSettings();
-  console.log("settings", settings);
+  // guest can choose multiple services
+  const [selectedServices, setSelectedServices] = useState([]);
 
   const isWorking =
     isAdding ||
     isUpdating ||
     isGuestsLoading ||
     isRoomsLoading ||
+    isServicesLoading ||
     isSettingsLoading;
 
   const { id: updateId, ...updateValues } = bookingToUpdate;
@@ -75,6 +80,33 @@ function AddBookingForm({ bookingToUpdate = {}, onCloseModal }) {
       });
     }
   }, [isSettingsLoading, settings, register]);
+
+  // Select services while updating
+  useEffect(() => {
+    if (isUpdateSession && updateValues?.services) {
+      services?.map((service) => {
+        updateValues?.services?.map((updateService) => {
+          if (service.id === updateService.id) {
+            setSelectedServices((prevSelected) => [
+              ...prevSelected,
+              service.id,
+            ]);
+          }
+        });
+      });
+    }
+  }, [isUpdateSession, updateValues, services]);
+
+  // handle services
+  const handleServicesSelection = (serviceId, isChecked) => {
+    if (isChecked) {
+      setSelectedServices((prevSelected) => [...prevSelected, serviceId]);
+    } else {
+      setSelectedServices((prevSelected) =>
+        prevSelected.filter((id) => id !== serviceId),
+      );
+    }
+  };
 
   // Handle form submission
   function onSubmit(formData) {
@@ -138,14 +170,17 @@ function AddBookingForm({ bookingToUpdate = {}, onCloseModal }) {
         },
       );
     else
-      addNewBooking(booking, {
-        onSuccess: () => {
-          reset();
-          onCloseModal?.();
+      addNewBooking(
+        { booking, selectedServices },
+        {
+          onSuccess: () => {
+            reset();
+            onCloseModal?.();
+          },
         },
-      });
+      );
   }
-
+  if (isWorking) return <Spinner />;
   function onError(errors) {
     console.log(errors);
   }
@@ -226,43 +261,72 @@ function AddBookingForm({ bookingToUpdate = {}, onCloseModal }) {
 
         <FormRow label="Status" error={errors?.status?.message}>
           <select
-            className="text-medium w-full rounded-sm border border-gray-300 bg-gray-50
-          px-4 py-2  shadow-sm"
+            className="w-full rounded-lg border border-gray-300 bg-gray-50 p-2 text-sm text-gray-900 focus:border-gray-500 focus:ring-gray-500 "
             {...register("status", { required: "Status is required" })}
           >
+            <option disabled>Choose a Status</option>
             <option value="unconfirmed">Unconfirmed</option>
             <option value="checked-in">Checked-In</option>
             <option value="checked-out">Checked-Out</option>
           </select>
         </FormRow>
 
-        <FormRow
-          label="Do you want breakfast?"
-          error={errors?.breakfast?.message}
-        >
+        <FormRow label="Breakfast included" error={errors?.breakfast?.message}>
           <select
-            className="text-medium w-full rounded-sm border border-gray-300 bg-gray-50
-         px-4 py-2  shadow-sm"
+            className="w-full rounded-lg border border-gray-300 bg-gray-50 p-2 text-sm text-gray-900 focus:border-gray-500 focus:ring-gray-500"
             {...register("breakfast", { required: "This field is required" })}
           >
+            <option disabled>Choose an Option</option>
             <option value="no">No</option>
             <option value="yes">Yes</option>
           </select>
         </FormRow>
 
-        <FormRow label="Do you want to pay now?" error={errors?.paid?.message}>
+        <FormRow label="Has Paid" error={errors?.paid?.message}>
           <select
-            className="text-medium w-full rounded-sm border border-gray-300 bg-gray-50
-         px-4 py-2  shadow-sm"
+            className="w-full rounded-lg border border-gray-300 bg-gray-50 p-2 text-sm text-gray-900 focus:border-gray-500 focus:ring-gray-500"
             {...register("paid", { required: "This field is required" })}
           >
+            <option disabled>Choose an Option</option>
             <option value="no">No</option>
             <option value="yes">Yes</option>
           </select>
         </FormRow>
 
+        {!isUpdateSession && (
+          <FormRow label="Services">
+            {!isWorking &&
+              services?.map((service) => {
+                if (service.availability === false) return null;
+                return (
+                  <div
+                    key={service.id}
+                    className="ml-2 flex w-full items-start py-1"
+                  >
+                    <input
+                      className="peer hidden"
+                      type="checkbox"
+                      id={`service-${service.id}`}
+                      checked={selectedServices.includes(service.id)}
+                      onChange={(e) =>
+                        handleServicesSelection(service.id, e.target.checked)
+                      }
+                    />
+                    <label
+                      htmlFor={`service-${service.id}`}
+                      className=" inline-flex w-full cursor-pointer items-center justify-between rounded-lg border bg-gray-50  p-2 font-medium tracking-tight decoration-2 peer-checked:border-orange-400 peer-checked:bg-orange-700 peer-checked:font-semibold peer-checked:text-white"
+                    >
+                      <div className="flex w-full items-center justify-center">
+                        <div className=" text-sm">{service.service_name}</div>
+                      </div>
+                    </label>
+                  </div>
+                );
+              })}
+          </FormRow>
+        )}
+
         <FormRow hasButton={true}>
-          {/* type is an HTML attribute! */}
           <ButtonGroup>
             <Button variation="secondary" type="reset">
               Cancel

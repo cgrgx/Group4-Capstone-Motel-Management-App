@@ -6,7 +6,10 @@ export function useAddNewBooking() {
   const queryClient = useQueryClient();
 
   const { mutate: addNewBooking, isLoading: isAdding } = useMutation({
-    mutationFn: addNewBookingApi,
+    mutationFn: (data) => {
+      const { booking, selectedServices } = data;
+      return addNewBookingApi(booking, selectedServices);
+    },
     onSuccess: () => {
       toast.success("New Booking successfully added");
       queryClient.invalidateQueries({ queryKey: ["bookings"] });

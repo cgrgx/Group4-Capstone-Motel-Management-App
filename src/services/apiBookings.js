@@ -72,6 +72,54 @@ export async function getBooking(id) {
   return data;
 }
 
+// booking with services
+export async function getBookingWithServices(id) {
+  // Fetch booking details
+  const { data: bookingData, error: bookingError } = await supabase
+    .from("bookings")
+    .select("*, rooms(*), guests(*)")
+    .eq("id", id);
+
+  if (bookingError) {
+    console.error(bookingError);
+    throw new Error("Booking not found");
+  }
+
+  // Fetch service bookings associated with the booking
+  const { data: serviceBookingsData, error: serviceBookingsError } =
+    await supabase
+      .from("services_bookings")
+      .select("service_id")
+      .eq("booking_id", id);
+
+  if (serviceBookingsError) {
+    console.error(serviceBookingsError);
+    throw new Error("Error fetching service bookings");
+  }
+
+  // Extract service IDs from service bookings data
+  const serviceIds = serviceBookingsData.map((row) => row.service_id);
+
+  // Fetch service details using the extracted service IDs
+  const { data: servicesData, error: servicesError } = await supabase
+    .from("services")
+    .select("*")
+    .in("id", serviceIds);
+
+  if (servicesError) {
+    console.error(servicesError);
+    throw new Error("Error fetching services");
+  }
+
+  // Merge booking data with service data
+  const bookingWithServices = {
+    ...bookingData[0],
+    services: servicesData,
+  };
+
+  return bookingWithServices;
+}
+
 // Returns all BOOKINGS that are were created after the given date. Useful to get bookings created in the last 30 days, for example.
 // date: ISOString
 export async function getBookingsAfterDate(date) {
@@ -122,18 +170,67 @@ export async function getStaysTodayActivity() {
   return data;
 }
 
-export async function addNewBooking(obj) {
-  const { data, error } = await supabase.from("bookings").insert(obj).select();
+// export async function addNewBooking(obj) {
+//   const { data, error } = await supabase.from("bookings").insert(obj).select();
 
-  if (error) {
-    console.error(error);
+//   if (error) {
+//     console.error(error);
+//     throw new Error("Booking could not be created");
+//   }
+
+//   return data;
+// }
+
+export async function addNewBooking(obj, selectedServices) {
+  console.log("api", selectedServices);
+  // Insert booking into the bookings table
+  const { data: bookingData, error: bookingError } = await supabase
+    .from("bookings")
+    .insert(obj)
+    .select();
+
+  if (bookingError) {
+    console.error(bookingError);
     throw new Error("Booking could not be created");
   }
 
-  return data;
+  const bookingId = bookingData[0].id;
+
+  // Insert entries into the services_bookings table for each selected service
+  const serviceInsertPromises = selectedServices.map(async (serviceId) => {
+    const { error: serviceBookingError } = await supabase
+      .from("services_bookings")
+      .insert([{ booking_id: bookingId, service_id: serviceId }])
+      .select();
+
+    if (serviceBookingError) {
+      console.error(serviceBookingError);
+      throw new Error("Error associating services with booking");
+    }
+  });
+
+  await Promise.all(serviceInsertPromises);
+
+  return bookingData;
 }
 
-export async function updateBooking(id, obj) {
+// export async function updateBooking(id, obj) {
+//   const { data, error } = await supabase
+//     .from("bookings")
+//     .update(obj)
+//     .eq("id", id)
+//     .select()
+//     .single();
+
+//   if (error) {
+//     console.error(error);
+//     throw new Error("Booking could not be updated");
+//   }
+//   return data;
+// }
+
+export async function updateBooking(id, obj, selectedServices = []) {
+  console.log("api", selectedServices);
   const { data, error } = await supabase
     .from("bookings")
     .update(obj)
@@ -145,6 +242,25 @@ export async function updateBooking(id, obj) {
     console.error(error);
     throw new Error("Booking could not be updated");
   }
+
+  // Delete existing service associations for this booking
+  await supabase.from("services_bookings").delete().eq("booking_id", id);
+
+  // Insert new service associations for this booking
+  const serviceInsertPromises = selectedServices?.map(async (serviceId) => {
+    const { error: serviceBookingError } = await supabase
+      .from("services_bookings")
+      .insert([{ booking_id: id, service_id: serviceId }])
+      .select();
+
+    if (serviceBookingError) {
+      console.error(serviceBookingError);
+      throw new Error("Error associating services with booking");
+    }
+  });
+
+  await Promise.all(serviceInsertPromises);
+
   return data;
 }
 
