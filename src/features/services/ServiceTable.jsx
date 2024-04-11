@@ -55,48 +55,48 @@ const ServicesTable = () => {
       header: "Availability",
     }),
 
-    columnHelper.accessor("actions", {
-      id: "actions", // It's good practice to explicitly set an ID for non-accessor columns
-      cell: (info) => (
-        <>
-          {isAdmin ? (
-            <div className="flex items-center justify-center">
-              <ToolTip
-                text="Edit Service"
-                onClick={() => handleOpenUpdateModal(info.row.original)}
-                className={"text-indigo-600 hover:text-indigo-900"}
-              >
-                <MdOutlineModeEdit />
-              </ToolTip>
-              <span className="mx-2 inline-block h-5 border-r-2 border-gray-300 align-middle" />
-              <ToolTip
-                text="Delete Service"
-                onClick={() => handleOpenDeleteModal(info.row.original)}
-                className={"text-red-600 hover:text-red-900"}
-              >
-                <MdOutlineDelete />
-              </ToolTip>
-            </div>
-          ) : (
-            <p>Your are not an admin</p>
-          )}
-        </>
-      ),
-      header: () => "Actions",
-    }),
+    // columnHelper.accessor("actions", {
+    //   id: "actions", // It's good practice to explicitly set an ID for non-accessor columns
+    //   cell: (info) => (
+    //     <>
+    //       {isAdmin ? (
+    //         <div className="flex items-center justify-center">
+    //           <ToolTip
+    //             text="Edit Service"
+    //             onClick={() => handleOpenUpdateModal(info.row.original)}
+    //             className={"text-indigo-600 hover:text-indigo-900"}
+    //           >
+    //             <MdOutlineModeEdit />
+    //           </ToolTip>
+    //           <span className="mx-2 inline-block h-5 border-r-2 border-gray-300 align-middle" />
+    //           <ToolTip
+    //             text="Delete Service"
+    //             onClick={() => handleOpenDeleteModal(info.row.original)}
+    //             className={"text-red-600 hover:text-red-900"}
+    //           >
+    //             <MdOutlineDelete />
+    //           </ToolTip>
+    //         </div>
+    //       ) : (
+    //         <p>Your are not an admin</p>
+    //       )}
+    //     </>
+    //   ),
+    //   header: () => "Actions",
+    // }),
   ];
 
   // Open Update Modal
-  const handleOpenUpdateModal = (service) => {
-    setSeletedService(service);
-    setUpdateModalOpen(true);
-  };
+  // const handleOpenUpdateModal = (service) => {
+  //   setSeletedService(service);
+  //   setUpdateModalOpen(true);
+  // };
 
   // Open Delete Modal
-  const handleOpenDeleteModal = (service) => {
-    setSeletedService(service);
-    setDeleteModalOpen(true);
-  };
+  // const handleOpenDeleteModal = (service) => {
+  //   setSeletedService(service);
+  //   setDeleteModalOpen(true);
+  // };
 
   // Handle Close Modal
   const handleCloseModal = () => {
