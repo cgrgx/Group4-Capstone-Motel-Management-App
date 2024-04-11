@@ -11,6 +11,9 @@ export function useSignup() {
         "Account successfully created! You can now log in with your credentials.",
       );
     },
+    onError: (err) => {
+      toast.error(err.message);
+    },
   });
 
   return { signup, isLoading };

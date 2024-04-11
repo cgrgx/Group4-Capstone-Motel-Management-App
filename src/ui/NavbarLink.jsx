@@ -18,7 +18,6 @@ function Navbar() {
     { path: "/rooms", name: "Rooms", icon: MdOutlineBedroomChild },
     { path: "/users", name: "Users", icon: IoPersonOutline },
     { path: "/services", name: "Services", icon: RiChatSettingsLine },
-    { path: "/payments", name: "Payments", icon: MdAttachMoney },
     { path: "/settings", name: "Settings", icon: IoSettingsOutline },
   ];
   const activeLinkStyles = "bg-gray-200 font-bold";
