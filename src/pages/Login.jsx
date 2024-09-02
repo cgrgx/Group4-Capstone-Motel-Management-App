@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+
+import CredentialsModal from "@/ui/Credentials";
 import LoginForm from "../features/authentication/LoginForm";
 import Heading from "../ui/Heading";
 import Logo from "../ui/Logo";
@@ -10,6 +12,8 @@ function Login() {
         <div className="h-6 w-full bg-orange-400" />
         <Logo />
         <Heading as="h4">SLEEPY GOOSE MOTEL</Heading>
+        {/* test credentials */}
+        <CredentialsModal />
         <LoginForm />
       </div>
       <div className="text-center font-medium">

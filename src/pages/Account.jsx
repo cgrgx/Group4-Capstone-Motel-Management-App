@@ -8,8 +8,11 @@ function Account() {
   return (
     <>
       <Heading as="h1">Update your account</Heading>
-      <Row>
+      <Row type="vertical">
         <UpdateUserDataForm />
+      </Row>
+      <Row type="vertical">
+        <h1 className="text-2xl font-semibold">Update your password</h1>
         <UpdatePasswordForm />
       </Row>
     </>
